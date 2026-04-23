@@ -20,6 +20,13 @@ from constantes import (
     MSG_NO_INFORMACION,
 )
 
+def procesar_dataset(dataset)-> dict:
+    dataset_procesado = {}
+    for jugador in dataset:
+        if jugador[1] not in dataset_procesado:
+            dataset_procesado[jugador[1]] = []
+        dataset_procesado[jugador[1]].append(jugador)
+    return dataset_procesado
 
 # -----------------------------------------------------------
 def main(datos_jugadores: list, presupuesto_inicial: int):
@@ -29,10 +36,10 @@ def main(datos_jugadores: list, presupuesto_inicial: int):
     ingresa la opcion de salir, se muestra un mensaje de salida y se termina el programa.
     """
     equipos = {}
+    #dataset = procesar_dataset(datos_jugadores)
     dataset = datos_jugadores
     presupuesto = presupuesto_inicial
-    while True:
-        opcion_seleccionada = input(
+    menu_principal =(
             "1) Crear equipo\n"
             "2) Comprar jugador\n"
             "3) Vender jugador\n"
@@ -41,8 +48,9 @@ def main(datos_jugadores: list, presupuesto_inicial: int):
             "6) Ver alineación\n"
             "7) Ver jugador más utilizado\n"
             "8) Salir\n"
-            "Ingrese una opción: "
-        )
+            "Ingrese una opción: ")
+    while True:
+        opcion_seleccionada = input(menu_principal)
 
         if opcion_seleccionada == "**":
             print(ERROR_INPUT_INVALIDO)

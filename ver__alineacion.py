@@ -2,6 +2,7 @@ from constantes import (
     TEMPLATE_ALINEACION,
     MSG_ALINEACION_INEXISTENTE,
     TEMPLATE_JUGADOR_POSICION,
+    SALIR,
 )
 
 
@@ -101,7 +102,7 @@ def mostrar_alineacion(equipo: str, equipos: dict)-> str:
     """
     if alineacion_inexistente(equipos, equipo):
         print(MSG_ALINEACION_INEXISTENTE)
-        return "salir"
+        return SALIR
     formacion = "-".join(adquirir_formacion(equipos, equipo))
     defensores = adquirir_defensores(
         equipos, equipo

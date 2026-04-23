@@ -6,6 +6,7 @@ from constantes import (
     MSG_ALINEACION_DESARMADA,
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
+    SALIR,
 )
 
 # ----------------------- Verificaciones ------------------------
@@ -77,7 +78,7 @@ def pedir_entrada(equipo: str, equipos: dict)-> str | None:
     """
     entrada_del_usuario = input("Seleccione el jugador a vender: ")
     if entrada_del_usuario == "**":
-        return "salir"
+        return SALIR
     if not entrada_del_usuario.isdigit():
         print(ERROR_INPUT_INVALIDO)
         return None
@@ -111,7 +112,7 @@ def mostrar_jugadores(equipo: str, equipos: dict)-> str | None | tuple:
     if not tiene_jugadores(equipo, equipos):
         mensaje += MSG_PLANTEL_VACIO
         print(mensaje)
-        return "salir"
+        return SALIR
     roles = {
         "Titular": "Titular",
         "Suplente": "Suplente",
@@ -144,8 +145,8 @@ def mostrar_jugadores(equipo: str, equipos: dict)-> str | None | tuple:
     print(mensaje)
     while True:
         jugador_a_vender = pedir_entrada(equipo, equipos)
-        if jugador_a_vender == "salir":
-            return "salir"
+        if jugador_a_vender == SALIR:
+            return SALIR
         if jugador_a_vender is None:
             continue
         jugador_a_vender = sorted(equipos[equipo]["plantel"])[int(jugador_a_vender) - 1]

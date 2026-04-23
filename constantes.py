@@ -82,3 +82,7 @@ Mediocampista: {mediocampista}
 Delantero: {delantero}
 """
 MSG_NO_INFORMACION = "No hay información suficiente para mostrar estadísticas"
+
+# ----- constantes de retorno -----
+SALIR = "salir"
+PEDIR_DE_NUEVO = "pedir de nuevo"

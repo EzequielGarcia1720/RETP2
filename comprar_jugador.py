@@ -8,6 +8,7 @@ from constantes import (
     ERROR_JUGADOR_EXISTENTE,
     ERROR_SIN_EQUIPOS,
     ERROR_SELECCION_INVALIDA,
+    SALIR,
     HEADER_EQUIPOS,
     HEADER_JUGADORES,
     ERROR_INPUT_INVALIDO,
@@ -232,7 +233,7 @@ def mostrar_equipos(equipos: dict) -> str:
     """
     if not equipos:
         print(ERROR_SIN_EQUIPOS)
-        return "salir"
+        return SALIR
     opciones = sorted(list(equipos))
     maximo = len(opciones)
     mensaje = HEADER_EQUIPOS
@@ -242,7 +243,7 @@ def mostrar_equipos(equipos: dict) -> str:
     mensaje_input = "Seleccione un equipo: "
     equipo_seleccionado = pedir_entero(mensaje_input, 1, maximo)
     if equipo_seleccionado is None:
-        return "salir"
+        return SALIR
     return opciones[int(equipo_seleccionado) - 1]
 
 
@@ -259,7 +260,7 @@ def mostrar_posiciones(nombre_equipo: str, equipos: dict) -> str:
     mensaje_input = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. Delantero\nSeleccione una opcion: "
     posicion_seleccionada = pedir_entero(mensaje_input, 1, len(posiciones))
     if posicion_seleccionada is None:
-        return "salir"
+        return SALIR
     return posiciones[int(posicion_seleccionada) - 1]
 
 
@@ -297,8 +298,8 @@ def mostrar_jugadores(
         if isinstance(jugadores_seleccionados, int):
             pagina_actual = jugadores_seleccionados
             continue
-        if jugadores_seleccionados == "salir":
-            return "salir"
+        if jugadores_seleccionados == SALIR:
+            return SALIR
         return jugadores_seleccionados
 
 

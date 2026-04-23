@@ -2,6 +2,7 @@ from constantes import (
     TEMPLATE_PLANTEL,
     TEMPLATE_JUGADOR_PLANTEL,
     MSG_PLANTEL_VACIO,
+    SALIR,
 )
 
 # ----------------------- Verificaciones ------------------------
@@ -44,7 +45,7 @@ def mostrar_jugadores(equipo: str, equipos: dict):
     if not tiene_jugadores(equipo, equipos):
         mensaje += MSG_PLANTEL_VACIO
         print(mensaje)
-        return "salir"
+        return SALIR
     roles = {
         "Titular": "Titular",
         "Suplente": "Suplente",

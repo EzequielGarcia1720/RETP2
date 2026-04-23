@@ -12,6 +12,8 @@ from constantes import (
     ERROR_FORMACION_INVALIDA,
     ERROR_SELECCION_INVALIDA,
     MSG_CANTIDAD_JUGADORES_INSUFICIENTE,
+    SALIR,
+    PEDIR_DE_NUEVO,
 )
 
 # ---------------------- Verificaciones ----------------
@@ -58,23 +60,23 @@ def procesar_formacion(formacion_seleccionada: str):
     """
     if formacion_seleccionada.strip() == "" or formacion_seleccionada.count("-") != 2:
         print(ERROR_INPUT_INVALIDO)
-        return "pedir de nuevo"
+        return PEDIR_DE_NUEVO
     lista_formacion = formacion_seleccionada.split("-")
     if len(lista_formacion) != 3:
         print(ERROR_FORMACION_INVALIDA)
-        return "pedir de nuevo"
+        return PEDIR_DE_NUEVO
     suma = 0
     for jugadores_posicion in lista_formacion:
         if not jugadores_posicion.isdigit():
             print(ERROR_INPUT_INVALIDO)
-            return "pedir de nuevo"
+            return PEDIR_DE_NUEVO
         if int(jugadores_posicion) == 0:
             print(ERROR_FORMACION_INVALIDA)
-            return "pedir de nuevo"
+            return PEDIR_DE_NUEVO
         suma += int(jugadores_posicion)
     if suma != 10:
         print(ERROR_FORMACION_INVALIDA)
-        return "pedir de nuevo"
+        return PEDIR_DE_NUEVO
 
     return lista_formacion
 
@@ -126,13 +128,13 @@ def pedir_formacion(equipo: str, equipos: dict) -> list | str | None:
     while True:
         formacion_seleccionada = input("Ingrese una formación: ")
         if formacion_seleccionada == "**":
-            return "salir"
+            return SALIR
         formacion_seleccionada = procesar_formacion(formacion_seleccionada)
         if formacion_seleccionada == "pedir de nuevo":
             continue
         if verificar_cant_jugadores(equipo, equipos, formacion_seleccionada):
             return formacion_seleccionada
-        return "salir"
+        return SALIR
 
 
 def pedir_jugadores(
@@ -166,7 +168,7 @@ def pedir_jugadores(
     else:
         entrada_del_usuario = input("Seleccione un capitán: ")
     if entrada_del_usuario == "**":
-        return "salir"
+        return SALIR
 
     jugadores_seleccionados = None
 
@@ -202,8 +204,8 @@ def obtener_seleccion_posicion(
     """
     while True:
         jugadores = pedir_jugadores(formacion, posicion, lista_filtrada)
-        if jugadores == "salir":
-            return "salir"
+        if jugadores == SALIR:
+            return SALIR
         if jugadores:
             return jugadores
 
@@ -309,8 +311,8 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
             posicion, lista_filtrada, formacion_seleccionada
         )
 
-        if jugadores_seleccionados == "salir":
-            return "salir"
+        if jugadores_seleccionados == SALIR:
+            return SALIR
 
         alineacion[clave_dict] = jugadores_seleccionados
 
