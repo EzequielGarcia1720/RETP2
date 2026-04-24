@@ -264,47 +264,42 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
     """
 
     # (Posicion en la tupla del jugador, el header a imprimir, la clave que irá en el diccionario)
-    config_posiciones = [
+
+    alineacion = {}
+
+    for posicion, header, clave_dict in [
         ("Arquero", HEADER_ARQUERO, "Arquero"),
         ("Defensor", HEADER_DEFENSORES, "Defensores"),
         ("Mediocampista", HEADER_MEDIOCAMPISTAS, "Mediocampistas"),
         ("Delantero", HEADER_DELANTEROS, "Delanteros"),
         ("Suplente", HEADER_SUPLENTES, "Suplentes"),
         ("Capitan", HEADER_TITULARES, "Capitan"),
-    ]
-
-    alineacion = {}
-
-    for posicion, header, clave_dict in config_posiciones:
+    ]:
         jugadores_ya_elegidos = obtener_jugadores_ya_elegidos(alineacion)
-        if posicion == "Suplente":
-
-            lista_filtrada = sorted(
+        listas_filtradas = {
+            "Suplente": sorted(
                 [
                     jugador
                     for jugador in equipos[equipo]["plantel"]
                     if jugador not in jugadores_ya_elegidos
                 ]
-            )
-        elif posicion == "Capitan":
-            lista_filtrada = sorted(
+            ),
+            "Capitan": sorted(
                 [
                     jugador
                     for jugador in equipos[equipo]["plantel"]
                     if jugador in jugadores_ya_elegidos
                     and jugador not in alineacion.get("Suplentes", [])
                 ]
-            )
-        else:
-            lista_filtrada = sorted(
+            ),
+        }
+        lista_filtrada = listas_filtradas.get(posicion, sorted(
                 [
                     jugador
                     for jugador in equipos[equipo]["plantel"]
                     if jugador[1] == posicion
                 ]
-            )
-        # Creo que podria haber hecho un diccionario pero me acabo de dar cuenta y ya es tarde
-
+            ) )
         imprimir_lista_jugadores(header, lista_filtrada)
 
         jugadores_seleccionados = obtener_seleccion_posicion(
