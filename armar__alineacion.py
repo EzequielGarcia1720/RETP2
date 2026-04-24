@@ -231,20 +231,20 @@ def imprimir_lista_jugadores(header: str, lista_filtrada: list):
     Recibe el HEADER y la lista filtrada de jugadores segun la posicion y la imprime
     """
     mensaje = header
-    if header == HEADER_SUPLENTES:
+    if header in (HEADER_SUPLENTES, HEADER_TITULARES):
         for indice, jugador in enumerate(lista_filtrada):
             mensaje += "\n" + TEMPLATE_JUGADOR_POSICION.format(
                 n=indice + 1,
                 nombre_jugador=jugador[0],
                 posicion=jugador[1],
             )
-    elif header == HEADER_TITULARES:
-        for indice, jugador in enumerate(lista_filtrada):
-            mensaje += "\n" + TEMPLATE_JUGADOR_POSICION.format(
-                n=indice + 1,
-                nombre_jugador=jugador[0],
-                posicion=jugador[1],
-            )
+#    elif header == HEADER_TITULARES:
+#        for indice, jugador in enumerate(lista_filtrada):
+#            mensaje += "\n" + TEMPLATE_JUGADOR_POSICION.format(
+#                n=indice + 1,
+#                nombre_jugador=jugador[0],
+#                posicion=jugador[1],
+#            )
     else:
         for indice, jugador in enumerate(lista_filtrada):
             mensaje += "\n" + TEMPLATE_JUGADOR.format(
