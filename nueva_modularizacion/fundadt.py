@@ -1,3 +1,21 @@
+from funciones_principales import(
+    crear_equipos,
+    comprar_jugadores,
+    vender_jugador,
+    ver_plantel,
+    armar_alineacion,
+    ver_alineacion,
+    ver_jugador_mas_utilizado
+)
+from constantes import (
+    ERROR_INPUT_INVALIDO,
+    ERROR_SELECCION_INVALIDA,
+    MSG_FIN
+)
+from data_set import (
+    PRESUPUESTO_INICIAL,
+    DATASET_JUGADORES
+)
 def main(datos_jugadores: list, presupuesto_inicial: int):
     """Funcion que despliega el menu principal y llama a las funciones
     correspondientes a cada opcion. Si el usuario ingresa una opcion invalida, se
@@ -44,3 +62,8 @@ def main(datos_jugadores: list, presupuesto_inicial: int):
             acciones[opcion_seleccionada]()
         else:
             print(ERROR_SELECCION_INVALIDA)
+
+if __name__ == "__main__":
+    from data_set import DATASET_JUGADORES, PRESUPUESTO_INICIAL
+
+    main(DATASET_JUGADORES, PRESUPUESTO_INICIAL)
