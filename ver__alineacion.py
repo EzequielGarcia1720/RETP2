@@ -21,61 +21,71 @@ def adquirir_formacion(equipos: dict, equipo: str)-> list:
     return formacion
 
 
-def jugadores_en_alineacion(alineacion: dict)-> list:
-    """Recibe el diccionario de la alineacion y devuelve
-    una lista con los jugadores en alineacion."""
-    en_alineacion = []
-    for valor_posicion in alineacion.values():
-        if isinstance(valor_posicion, list):
-            en_alineacion.extend(valor_posicion)
-        else:
-            en_alineacion.append(valor_posicion)
-    return en_alineacion
+# def jugadores_en_alineacion(alineacion: dict)-> list:
+#     """Recibe el diccionario de la alineacion y devuelve
+#     una lista con los jugadores en alineacion."""
+#     en_alineacion = []
+#     for valor_posicion in alineacion.values():
+#         if isinstance(valor_posicion, list):
+#             en_alineacion.extend(valor_posicion)
+#         else:
+#             en_alineacion.append(valor_posicion)
+#     return en_alineacion
 
 
-def adquirir_defensores(equipos: dict, equipo: str)-> list:
-    """Recibe el diccionario de equipos y el nombre del equipo.
-    Devuelve una lista con los nombres de los defensores del equipo."""
+# def adquirir_defensores(equipos: dict, equipo: str)-> list:
+#     """Recibe el diccionario de equipos y el nombre del equipo.
+#     Devuelve una lista con los nombres de los defensores del equipo."""
+#     alineacion = equipos[equipo].get("alineacion", {})
+#     return sorted(list(jugador[0] for jugador in alineacion.get("Defensores", [])))
+
+
+# def adquirir_mediocampistas(equipos: dict, equipo: str)-> list:
+#     """Recibe el diccionario de equipos y el nombre del equipo.
+#     Devuelve una lista con los nombres de los mediocampistas del equipo."""
+#     alineacion = equipos[equipo].get("alineacion", {})
+#     return sorted(list(jugador[0] for jugador in alineacion.get("Mediocampistas", [])))
+
+
+# def adquirir_delanteros(equipos: dict, equipo: str)-> list:
+#     """Recibe el diccionario de equipos y el nombre del equipo.
+#     Devuelve una lista con los nombres de los delanteros del equipo."""
+#     alineacion = equipos[equipo].get("alineacion", {})
+#     return sorted(list(jugador[0] for jugador in alineacion.get("Delanteros", [])))
+
+
+# def adquirir_arquero(equipos: dict, equipo: str)-> str:
+#     """Recibe el diccionario de equipos y el nombre del equipo.
+#     Devuelve el nombre del arquero del equipo."""
+#     alineacion = equipos[equipo].get("alineacion", {})
+#     arquero = alineacion.get("Arquero")
+#     return arquero[0] if arquero else ""
+
+
+# def adquirir_suplentes(equipos: dict, equipo: dict)-> list:
+#     """Recibe el diccionario de equipos y el nombre del equipo.
+#     Devuelve una lista con los nombres de los suplentes del equipo."""
+#     alineacion = equipos[equipo].get("alineacion", {})
+#     return sorted(list(jugador for jugador in alineacion.get("Suplentes", [])))
+
+
+# def adquirir_capitan(equipos: dict, equipo: str)-> str:
+#     """Recibe el diccionario de equipos y el nombre del equipo.
+#     Devuelve el nombre del capitan del equipo."""
+#     alineacion = equipos[equipo].get("alineacion", {})
+#     capitan = alineacion.get("Capitan")
+#     return capitan[0] if capitan else ""
+
+def adquirir_jugadores_por_posicion(equipos: dict, equipo: str, posicion: str) -> list | str:
+    """Recibe el diccionario de equipos, el nombre del equipo y la posicion.
+    Devuelve la lista de jugadores o el nombre del jugador para esa posicion."""
     alineacion = equipos[equipo].get("alineacion", {})
-    return sorted(list(jugador[0] for jugador in alineacion.get("Defensores", [])))
-
-
-def adquirir_mediocampistas(equipos: dict, equipo: str)-> list:
-    """Recibe el diccionario de equipos y el nombre del equipo.
-    Devuelve una lista con los nombres de los mediocampistas del equipo."""
-    alineacion = equipos[equipo].get("alineacion", {})
-    return sorted(list(jugador[0] for jugador in alineacion.get("Mediocampistas", [])))
-
-
-def adquirir_delanteros(equipos: dict, equipo: str)-> list:
-    """Recibe el diccionario de equipos y el nombre del equipo.
-    Devuelve una lista con los nombres de los delanteros del equipo."""
-    alineacion = equipos[equipo].get("alineacion", {})
-    return sorted(list(jugador[0] for jugador in alineacion.get("Delanteros", [])))
-
-
-def adquirir_arquero(equipos: dict, equipo: str)-> str:
-    """Recibe el diccionario de equipos y el nombre del equipo.
-    Devuelve el nombre del arquero del equipo."""
-    alineacion = equipos[equipo].get("alineacion", {})
-    arquero = alineacion.get("Arquero")
-    return arquero[0] if arquero else ""
-
-
-def adquirir_suplentes(equipos: dict, equipo: dict)-> list:
-    """Recibe el diccionario de equipos y el nombre del equipo.
-    Devuelve una lista con los nombres de los suplentes del equipo."""
-    alineacion = equipos[equipo].get("alineacion", {})
-    return sorted(list(jugador for jugador in alineacion.get("Suplentes", [])))
-
-
-def adquirir_capitan(equipos: dict, equipo: str)-> str:
-    """Recibe el diccionario de equipos y el nombre del equipo.
-    Devuelve el nombre del capitan del equipo."""
-    alineacion = equipos[equipo].get("alineacion", {})
-    capitan = alineacion.get("Capitan")
-    return capitan[0] if capitan else ""
-
+    jugadores = alineacion.get(posicion)
+    if not jugadores:
+        return [] if posicion in ["Defensores", "Mediocampistas", "Delanteros", "Suplentes"] else ""
+    if isinstance(jugadores, list):
+        return sorted([jugador[0] for jugador in jugadores]) if posicion != "Suplentes" else sorted(jugadores)
+    return jugadores[0]
 
 # ------------------- output -----------------------
 
@@ -104,25 +114,25 @@ def mostrar_alineacion(equipo: str, equipos: dict)-> str:
         print(MSG_ALINEACION_INEXISTENTE)
         return SALIR
     formacion = "-".join(adquirir_formacion(equipos, equipo))
-    defensores = adquirir_defensores(
-        equipos, equipo
-    )  # equipos[equipo]["alineacion"]["Defensores"]
-    mediocampistas = adquirir_mediocampistas(
-        equipos, equipo
-    )  # equipos[equipo]["alineacion"]["Mediocampistas"]
-    delanteros = adquirir_delanteros(
-        equipos, equipo
-    )  # equipos[equipo]["alineacion"]["Delanteros"]
-    arquero = adquirir_arquero(
-        equipos, equipo
-    )  # equipos[equipo]["alineacion"]["Arquero"]
+    defensores = adquirir_jugadores_por_posicion(
+        equipos, equipo, "Defensores"
+    )
+    mediocampistas = adquirir_jugadores_por_posicion(
+        equipos, equipo, "Mediocampistas"
+    )
+    delanteros = adquirir_jugadores_por_posicion(
+        equipos, equipo, "Delanteros"
+    )
+    arquero = adquirir_jugadores_por_posicion(
+        equipos, equipo, "Arquero"
+    )
 
-    suplentes_sin_formato = adquirir_suplentes(
-        equipos, equipo
-    )  # equipos[equipo]["alineacion"]["Suplentes"]
-    capitan = adquirir_capitan(
-        equipos, equipo
-    )  # equipos[equipo]["alineacion"]["Capitán"]
+    suplentes_sin_formato = adquirir_jugadores_por_posicion(
+        equipos, equipo, "Suplentes"
+    )
+    capitan = adquirir_jugadores_por_posicion(
+        equipos, equipo, "Capitan"
+    )
     mensaje = TEMPLATE_ALINEACION.format(
         formacion=formacion,
         delanteros=" - ".join(delanteros),
