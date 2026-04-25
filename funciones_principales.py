@@ -54,51 +54,38 @@ def comprar_jugadores(equipos: dict, dataset: list):
     """
     Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
     """
-    i = 0
-    resultados = {}
-
-    variables = [
-        "equipo_seleccionado",
-        "posicion_seleccionada",
-        "jugadores_seleccionados",
-        "jugadores_verificados",
-        "resultado_compra",
-    ]
-
-    while i < len(variables):
-        funciones_a_ejecutar = {
-            0: lambda: salida_de_usuario.mostrar_equipos(equipos),
-            1: lambda: salida_de_usuario.mostrar_posiciones(
-                resultados["equipo_seleccionado"],
-                equipos,
-            ),
-            2: lambda: salida_de_usuario.mostrar_jugadores_compra(
-                resultados["posicion_seleccionada"],
-                resultados["equipo_seleccionado"],
-                dataset,
-                equipos,
-            ),
-            3: lambda: logica_de_negocio.verificar_presupuesto(
-                resultados["jugadores_seleccionados"],
-                resultados["equipo_seleccionado"],
-                equipos,
-            ),
-            4: lambda: logica_de_negocio.efectuar_compra(
-                resultados["jugadores_verificados"],
-                resultados["equipo_seleccionado"],
-                equipos,
-            ),
-        }
-
-        resultado_de_funcion = funciones_a_ejecutar[i]()
-
-        if resultado_de_funcion == "salir":
+    while True:
+        equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
+        if not equipo_seleccionado or equipo_seleccionado == 'salir':
             break
-        if resultado_de_funcion is None:
+        posicion_seleccionada = salida_de_usuario.mostrar_posiciones(
+            equipo_seleccionado,
+            equipos,
+        )
+        if not posicion_seleccionada or posicion_seleccionada == 'salir':
+            break
+        jugadores_seleccionados = salida_de_usuario.mostrar_jugadores_compra(
+            posicion_seleccionada,
+            equipo_seleccionado,
+            dataset,
+            equipos,
+        )
+        if not jugadores_seleccionados or jugadores_seleccionados == 'salir':
+            break
+        jugadores_verificados = logica_de_negocio.verificar_presupuesto(
+            jugadores_seleccionados,
+            equipo_seleccionado,
+            equipos,
+        )
+        if not jugadores_verificados or jugadores_verificados == 'salir':
+            break
+        if logica_de_negocio.efectuar_compra(
+            jugadores_verificados,
+            equipo_seleccionado,
+            equipos,
+        ) == 'salir':
             break
 
-        resultados[variables[i]] = resultado_de_funcion
-        i += 1
 
 def vender_jugador(equipos: dict):
     """Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
