@@ -81,7 +81,8 @@ def tiene_jugadores(equipo: str, equipos: dict) -> bool:
     - Devuelve True si el equipo tiene jugadores
     - Devuelve False si el equipo no tiene jugadores
     """
-    return len(equipos[equipo]["plantel"]) > 0
+    posiciones = ['Arquero','Defensor','Mediocampista','Delantero']
+    return any(len(equipos[equipo]["plantel"][posicion]) > 0 for posicion in posiciones)
 
 
 def es_suplente(jugador: tuple, equipo: str, equipos: dict) -> bool:
@@ -122,7 +123,7 @@ def esta_en_alineacion(equipo: str, equipos: dict, jugador: tuple) -> bool:
         "Delantero": "Delanteros",
     }
 
-    posicion = posiciones.get(jugador[1])
+    posicion = posiciones.get(jugador['posicion'])
     if posicion and jugador in alineacion.get(posicion, []):
         return True
 
