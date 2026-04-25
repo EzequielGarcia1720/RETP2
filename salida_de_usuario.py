@@ -331,24 +331,8 @@ def mostrar_alineacion(equipo: str, equipos: dict) -> str:
         print(MSG_ALINEACION_INEXISTENTE)
         return SALIR
     formacion = "-".join(manejo_de_alineaciones.adquirir_formacion(equipos, equipo))
-    defensores = manejo_de_alineaciones.adquirir_jugadores_por_posicion(
-        equipos, equipo, "Defensores"
-    )
-    mediocampistas = manejo_de_alineaciones.adquirir_jugadores_por_posicion(
-        equipos, equipo, "Mediocampistas"
-    )
-    delanteros = manejo_de_alineaciones.adquirir_jugadores_por_posicion(
-        equipos, equipo, "Delanteros"
-    )
-    arquero = manejo_de_alineaciones.adquirir_jugadores_por_posicion(
-        equipos, equipo, "Arquero"
-    )
-
-    suplentes_sin_formato = manejo_de_alineaciones.adquirir_jugadores_por_posicion(
-        equipos, equipo, "Suplentes"
-    )
-    capitan = manejo_de_alineaciones.adquirir_jugadores_por_posicion(
-        equipos, equipo, "Capitan"
+    defensores, mediocampistas, delanteros, arquero, suplentes_sin_formato, capitan = (
+        manejo_de_alineaciones.adquirir_todas_las_posiciones(equipos, equipo)
     )
     mensaje = TEMPLATE_ALINEACION.format(
         formacion=formacion,

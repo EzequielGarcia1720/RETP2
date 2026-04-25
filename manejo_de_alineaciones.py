@@ -120,3 +120,13 @@ def adquirir_jugadores_por_posicion(equipos: dict, equipo: str, posicion: str) -
     if isinstance(jugadores, list):
         return sorted([jugador[0] for jugador in jugadores]) if posicion != "Suplentes" else sorted(jugadores)
     return jugadores[0]
+
+def adquirir_todas_las_posiciones(equipos, equipo):
+    return (
+        adquirir_jugadores_por_posicion(equipos,equipo,'Defensores'),
+        adquirir_jugadores_por_posicion(equipos,equipo,'Mediocampistas'),
+        adquirir_jugadores_por_posicion(equipos,equipo,'Delanteros'),
+        adquirir_jugadores_por_posicion(equipos,equipo,'Arquero'),
+        adquirir_jugadores_por_posicion(equipos,equipo,'Suplentes'),
+        adquirir_jugadores_por_posicion(equipos,equipo,'Capitan')
+    )
