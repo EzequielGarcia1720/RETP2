@@ -1,17 +1,9 @@
-from funciones_principales import(
-    crear_equipos,
-    comprar_jugadores,
-    vender_jugador,
-    ver_plantel,
-    armar_alineacion,
-    ver_alineacion,
-    ver_jugador_mas_utilizado
-)
 from constantes import (
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
     MSG_FIN
 )
+import funciones_principales
 
 def procesar_dataset(dataset)-> dict:
     dataset_procesado = {}
@@ -48,13 +40,13 @@ def main(datos_jugadores: list, presupuesto_inicial: int):
             continue
 
         acciones = {
-            "1": lambda: crear_equipos(equipos, presupuesto),
-            "2": lambda: comprar_jugadores(equipos, dataset),
-            "3": lambda: vender_jugador(equipos),
-            "4": lambda: ver_plantel(equipos),
-            "5": lambda: armar_alineacion(equipos),
-            "6": lambda: ver_alineacion(equipos),
-            "7": lambda: ver_jugador_mas_utilizado(equipos),
+            "1": lambda: funciones_principales.crear_equipos(equipos, presupuesto),
+            "2": lambda: funciones_principales.comprar_jugadores(equipos, dataset),
+            "3": lambda: funciones_principales.vender_jugador(equipos),
+            "4": lambda: funciones_principales.ver_plantel(equipos),
+            "5": lambda: funciones_principales.armar_alineacion(equipos),
+            "6": lambda: funciones_principales.ver_alineacion(equipos),
+            "7": lambda: funciones_principales.ver_jugador_mas_utilizado(equipos),
             "8": lambda: None,
         }
 
