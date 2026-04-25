@@ -40,10 +40,13 @@ def efectuar_compra(
     jugadores_seleccionados = sorted(jugadores_seleccionados)
     for jugador in jugadores_seleccionados:
         equipo = equipos[equipo_seleccionado]
-        equipo["plantel"].append(jugador)
-        equipo["presupuesto"] -= jugador[2]
-        presupuesto_equipo = equipo['presupuesto']
         nombre_jugador = jugador[0]
+        posicion_jugador = jugador[1]
+        precio_jugador = jugador[2]
+        equipo["plantel"][posicion_jugador][nombre_jugador] = {}
+        equipo["plantel"][posicion_jugador][nombre_jugador]['precio'] = precio_jugador
+        equipo["presupuesto"] -= precio_jugador
+        presupuesto_equipo = equipo['presupuesto']
         salida_de_usuario.imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo)
     return SALIR
 
@@ -52,10 +55,12 @@ def efectuar_compra(
 def efectuar_venta(jugador_a_vender: tuple, equipo: str, equipos: dict):
     """Efectua la venta del jugador seleccionado, actualizando el presupuesto
     del equipo y el plantel."""
-    equipos[equipo]["plantel"].remove(jugador_a_vender)
-    equipos[equipo]["presupuesto"] += jugador_a_vender[2]
+    posicion = jugador_a_vender['posicion']
+    nombre_jugador = jugador_a_vender['nombre']
+    equipos[equipo]["plantel"][posicion].pop(nombre_jugador)
+    equipos[equipo]["presupuesto"] += jugador_a_vender['precio']
     mensaje_de_venta_exitosa = MSG_VENTA_EXITOSA.format(
-        nombre_jugador=jugador_a_vender[0],
+        nombre_jugador=jugador_a_vender['nombre'],
         presupuesto=equipos[equipo]["presupuesto"],
     )
     if validaciones.esta_en_alineacion(equipo, equipos, jugador_a_vender):

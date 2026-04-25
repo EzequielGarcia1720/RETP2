@@ -32,7 +32,12 @@ def crear_equipos(equipos: dict, presupuesto: int):
 
         equipos[nombre_equipo] = {
             "presupuesto": presupuesto,
-            "plantel": [],
+            "plantel":{
+                "Arquero": {},
+                "Defensor":{},
+                "Mediocampista": {},
+                "Delantero": {},
+            },
             "alineacion": {
                 "Arquero": None,
                 "Defensores": [],

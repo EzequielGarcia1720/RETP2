@@ -8,9 +8,10 @@ import funciones_principales
 def procesar_dataset(dataset)-> dict:
     dataset_procesado = {}
     for jugador in dataset:
-        if jugador[1] not in dataset_procesado:
-            dataset_procesado[jugador[1]] = []
-        dataset_procesado[jugador[1]].append(jugador)
+        posicion = jugador[1]
+        if posicion not in dataset_procesado:
+            dataset_procesado[posicion] = []
+        dataset_procesado[posicion].append(jugador)
     return dataset_procesado
 
 def main(datos_jugadores: list, presupuesto_inicial: int):

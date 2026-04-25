@@ -25,6 +25,7 @@ from constantes import (
 import entrada_de_usuario
 import validaciones
 import manejo_de_alineaciones
+import manejo_de_equipos
 
 
 def mostrar_equipos(equipos: dict) -> str:
@@ -70,7 +71,7 @@ def mostrar_posiciones(nombre_equipo: str, equipos: dict) -> str:
 
 
 def mostrar_jugadores_compra(
-    posicion_seleccionada: str, nombre_equipo: str, dataset: list, equipos: dict
+    posicion_seleccionada: str, nombre_equipo: str, dataset: dict, equipos: dict
 ) -> list:
     """Muestra los jugadores disponibles para comprar segun la posicion seleccionada
     Ademas llama a la funcion pedir jugadores, si es "salir" retorna "salir" y vuelve al menu
@@ -128,46 +129,8 @@ def mostrar_plantel_venta(equipo: str, equipos: dict) -> str | None | tuple:
     - Si la entrada es valida devuelve la tupla del jugador a vender.
 
     """
-
-    mensaje = TEMPLATE_PLANTEL.format(
-        nombre_equipo=equipo,
-        presupuesto=equipos[equipo]["presupuesto"],
-    )
-    if not validaciones.tiene_jugadores(equipo, equipos):
-        mensaje += MSG_PLANTEL_VACIO
-        print(mensaje)
-        return SALIR
-    roles = {
-        "Titular": "Titular",
-        "Suplente": "Suplente",
-        "Reserva": "Reserva",
-    }
-    casos_de_rol = {
-        (True, False): lambda: roles["Titular"],
-        (False, True): lambda: roles["Suplente"],
-        (False, False): lambda: roles["Reserva"],
-    }
-
-    contador = 1
-    plantel_ordenado = sorted(equipos[equipo]["plantel"])
-    for jugador in plantel_ordenado:
-        rol_actual = casos_de_rol.get(
-            (
-                validaciones.es_titular(jugador, equipo, equipos),
-                validaciones.es_suplente(jugador, equipo, equipos),
-            )
-        )()
-        mensaje += TEMPLATE_JUGADOR_PLANTEL.format(
-            n=contador,
-            nombre_jugador=jugador[0],
-            posicion=jugador[1],
-            rol_actual=rol_actual,
-            precio=jugador[2],
-        )
-        if contador < len(plantel_ordenado):
-            mensaje += "\n"
-        contador += 1
-    print(mensaje)
+    mostrar_plantel(equipo, equipos)
+    plantel_ordenado = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
     while True:
         jugador_a_vender = entrada_de_usuario.pedir_entrada(equipo, equipos)
         if jugador_a_vender == SALIR:
@@ -210,7 +173,8 @@ def mostrar_plantel(equipo: str, equipos: dict):
     }
 
     contador = 1
-    for jugador in sorted(equipos[equipo]["plantel"]):
+    plantel_ordenado = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
+    for jugador in plantel_ordenado:
         rol_actual = casos_de_rol.get(
             (
                 validaciones.es_titular(jugador, equipo, equipos),
@@ -219,12 +183,12 @@ def mostrar_plantel(equipo: str, equipos: dict):
         )()
         mensaje += TEMPLATE_JUGADOR_PLANTEL.format(
             n=contador,
-            nombre_jugador=jugador[0],
-            posicion=jugador[1],
+            nombre_jugador=jugador['nombre'],
+            posicion=jugador['posicion'],
             rol_actual=rol_actual,
-            precio=jugador[2],
+            precio=jugador['precio'],
         )
-        if contador < len(equipos[equipo]["plantel"]):
+        if contador < len(plantel_ordenado):
             mensaje += "\n"
         contador += 1
     print(mensaje)
