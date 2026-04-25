@@ -1,10 +1,11 @@
 from constantes import (
     ERROR_PRESUPUESTO_INSUFICIENTE,
-    MSG_COMPRA_EXITOSA,
     MSG_VENTA_EXITOSA,
     MSG_ALINEACION_DESARMADA,
+    SALIR,
 )
 import validaciones
+import salida_de_usuario
 
 # -------------------------- compra de jugadores -------------------------------------
 def verificar_presupuesto(
@@ -43,16 +44,9 @@ def efectuar_compra(
         equipo["presupuesto"] -= jugador[2]
         presupuesto_equipo = equipo['presupuesto']
         nombre_jugador = jugador[0]
-        imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo)
+        salida_de_usuario.imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo)
+    return SALIR
 
-def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo):
-    print(
-        MSG_COMPRA_EXITOSA.format(
-            nombre_jugador=nombre_jugador,
-            nombre_equipo=equipo_seleccionado,
-            presupuesto=presupuesto_equipo,
-        )
-    )
 
 # ---------------- venta de jugador --------------------------------------------
 def efectuar_venta(jugador_a_vender: tuple, equipo: str, equipos: dict):

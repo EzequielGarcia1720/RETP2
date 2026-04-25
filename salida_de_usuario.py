@@ -10,6 +10,7 @@ from constantes import (
     HEADER_SUPLENTES,
     HEADER_TITULARES,
     MSG_ALINEACION_INEXISTENTE,
+    MSG_COMPRA_EXITOSA,
     MSG_PLANTEL_VACIO,
     SALIR,
     TEMPLATE_ALINEACION,
@@ -104,6 +105,14 @@ def mostrar_jugadores_compra(
             return SALIR
         return jugadores_seleccionados
 
+def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo):
+    print(
+        MSG_COMPRA_EXITOSA.format(
+            nombre_jugador=nombre_jugador,
+            nombre_equipo=equipo_seleccionado,
+            presupuesto=presupuesto_equipo,
+        )
+    )
 
 # Vender
 
