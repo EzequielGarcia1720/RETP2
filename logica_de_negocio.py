@@ -1,11 +1,28 @@
 from constantes import (
+    ERROR_PRESUPUESTO_INSUFICIENTE,
     MSG_COMPRA_EXITOSA,
     MSG_VENTA_EXITOSA,
     MSG_ALINEACION_DESARMADA,
 )
-
+import validaciones
 
 # -------------------------- compra de jugadores -------------------------------------
+def verificar_presupuesto(
+    jugadores_seleccionados: list, equipo_seleccionado: str, equipos: dict
+) -> list | None:
+    """Verifica que el presupuesto del equipo alcance para
+    la compra de los jugadores seleccionados.
+    - Si alcanza devuelve la lista de jugadores_seleccionados
+    - Si no alcanza imprime ERROR_PRESUPUESTO_INSUFICIENTE y devuelve None
+    """
+    monto_total = 0
+    for jugador in jugadores_seleccionados:
+        monto_total += jugador[2]
+    if monto_total <= equipos[equipo_seleccionado]["presupuesto"]:
+        return jugadores_seleccionados
+    print(ERROR_PRESUPUESTO_INSUFICIENTE)
+    return None
+
 def efectuar_compra(
     jugadores_seleccionados: list, equipo_seleccionado: str, equipos: dict
 ):
@@ -21,16 +38,21 @@ def efectuar_compra(
     """
     jugadores_seleccionados = sorted(jugadores_seleccionados)
     for jugador in jugadores_seleccionados:
-        equipos[equipo_seleccionado]["plantel"].append(jugador)
-        equipos[equipo_seleccionado]["presupuesto"] -= jugador[2]
-# El print podria ponerlo en una funcion y ponerlo junto a todo el output
-        print(
-            MSG_COMPRA_EXITOSA.format(
-                nombre_jugador=jugador[0],
-                nombre_equipo=equipo_seleccionado,
-                presupuesto=equipos[equipo_seleccionado]["presupuesto"],
-            )
+        equipo = equipos[equipo_seleccionado]
+        equipo["plantel"].append(jugador)
+        equipo["presupuesto"] -= jugador[2]
+        presupuesto_equipo = equipo['presupuesto']
+        nombre_jugador = jugador[0]
+        imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo)
+
+def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo):
+    print(
+        MSG_COMPRA_EXITOSA.format(
+            nombre_jugador=nombre_jugador,
+            nombre_equipo=equipo_seleccionado,
+            presupuesto=presupuesto_equipo,
         )
+    )
 
 # ---------------- venta de jugador --------------------------------------------
 def efectuar_venta(jugador_a_vender: tuple, equipo: str, equipos: dict):
@@ -42,7 +64,7 @@ def efectuar_venta(jugador_a_vender: tuple, equipo: str, equipos: dict):
         nombre_jugador=jugador_a_vender[0],
         presupuesto=equipos[equipo]["presupuesto"],
     )
-    if esta_en_alineacion(equipo, equipos, jugador_a_vender):
+    if validaciones.esta_en_alineacion(equipo, equipos, jugador_a_vender):
         mensaje_de_venta_exitosa += "\n" + MSG_ALINEACION_DESARMADA
         if "alineacion" in equipos[equipo]:
             equipos[equipo]["alineacion"] = {
