@@ -61,8 +61,11 @@ def verificar_existencia_jugador(
     - Si no existe devuelve True
     """
     contador = 0
+    plantel = equipos[equipo_seleccionado]['plantel']
     for jugador in jugadores_seleccionados:
-        if jugador in equipos[equipo_seleccionado]["plantel"]:
+        posicion = jugador[1]
+        nombre_jugador= jugador[0]
+        if plantel[posicion].get(nombre_jugador, None):
             print(ERROR_JUGADOR_EXISTENTE.format(nombre_jugador=jugador[0]))
             contador += 1
     if contador > 0:
