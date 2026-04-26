@@ -3,6 +3,7 @@ from constantes import (
     ERROR_JUGADOR_EXISTENTE,
     MSG_CANTIDAD_JUGADORES_INSUFICIENTE,
 )
+import manejo_de_equipos
 
 
 def validar_formato_equipo(nombre_equipo):
@@ -144,22 +145,14 @@ def verificar_cant_jugadores(
     - Si no hay jugadores suficientes para la formacion seleccionada devuelve False
     - Sino devuelve True
     """
-    if len(equipos[equipo]["plantel"]) < 16:
+    plantel = manejo_de_equipos.ordenar_jugadores(equipos,equipo)
+    if len(plantel) < 16:
         print(MSG_CANTIDAD_JUGADORES_INSUFICIENTE)
         return False
-    arqueros = 0
-    defensores = 0
-    mediocampistas = 0
-    delanteros = 0
-    for jugador in equipos[equipo]["plantel"]:
-        if jugador[1] == "Arquero":
-            arqueros += 1
-        if jugador[1] == "Defensor":
-            defensores += 1
-        if jugador[1] == "Mediocampista":
-            mediocampistas += 1
-        if jugador[1] == "Delantero":
-            delanteros += 1
+    arqueros = len(equipos[equipo]['plantel']['Arquero'])
+    defensores = len(equipos[equipo]['plantel']['Defensor'])
+    mediocampistas = len(equipos[equipo]['plantel']['Mediocampista'])
+    delanteros = len(equipos[equipo]['plantel']['Delantero'])
     if (
         arqueros < 1
         or defensores < int(formacion_seleccionada[0])
