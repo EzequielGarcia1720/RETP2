@@ -5,12 +5,12 @@ from constantes import (
     MSG_ALINEACION_GUARDADA,
     MSG_NO_INFORMACION,
     TEMPLATE_ESTADISTICA_JUGADORES,
-
 )
 import validaciones
 import salida_de_usuario
 import entrada_de_usuario
 import logica_de_negocio
+
 
 def crear_equipos(equipos: dict, presupuesto: int):
     """Funcion que permite al usuario crear su equipo.
@@ -32,9 +32,9 @@ def crear_equipos(equipos: dict, presupuesto: int):
 
         equipos[nombre_equipo] = {
             "presupuesto": presupuesto,
-            "plantel":{
+            "plantel": {
                 "Arquero": {},
-                "Defensor":{},
+                "Defensor": {},
                 "Mediocampista": {},
                 "Delantero": {},
             },
@@ -55,19 +55,20 @@ def crear_equipos(equipos: dict, presupuesto: int):
         )
         return
 
+
 def comprar_jugadores(equipos: dict, dataset: list):
     """
     Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-        if not equipo_seleccionado or equipo_seleccionado == 'salir':
+        if not equipo_seleccionado or equipo_seleccionado == "salir":
             break
         posicion_seleccionada = salida_de_usuario.mostrar_posiciones(
             equipo_seleccionado,
             equipos,
         )
-        if not posicion_seleccionada or posicion_seleccionada == 'salir':
+        if not posicion_seleccionada or posicion_seleccionada == "salir":
             break
         jugadores_seleccionados = salida_de_usuario.mostrar_jugadores_compra(
             posicion_seleccionada,
@@ -75,152 +76,95 @@ def comprar_jugadores(equipos: dict, dataset: list):
             dataset,
             equipos,
         )
-        if not jugadores_seleccionados or jugadores_seleccionados == 'salir':
+        if not jugadores_seleccionados or jugadores_seleccionados == "salir":
             break
         jugadores_verificados = logica_de_negocio.verificar_presupuesto(
             jugadores_seleccionados,
             equipo_seleccionado,
             equipos,
         )
-        if not jugadores_verificados or jugadores_verificados == 'salir':
+        if not jugadores_verificados or jugadores_verificados == "salir":
             break
-        if logica_de_negocio.efectuar_compra(
-            jugadores_verificados,
-            equipo_seleccionado,
-            equipos,
-        ) == 'salir':
+        if (
+            logica_de_negocio.efectuar_compra(
+                jugadores_verificados,
+                equipo_seleccionado,
+                equipos,
+            )
+            == "salir"
+        ):
             break
 
 
 def vender_jugador(equipos: dict):
     """Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
     del menu de vender jugador."""
-    i = 0
-    resultados = {}
+    equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
+    if not equipo_seleccionado or equipo_seleccionado == "salir":
+        return
 
-    variables = [
-        "equipo_seleccionado",
-        "jugador_seleccionado",
-        "resultado_venta",
-    ]
+    jugador_seleccionado = salida_de_usuario.mostrar_plantel_venta(
+        equipo_seleccionado, equipos
+    )
+    if not jugador_seleccionado or jugador_seleccionado == "salir":
+        return
 
-    while i < len(variables):
-        funciones_a_ejecutar = {
-            0: lambda: salida_de_usuario.mostrar_equipos(equipos),
-            1: lambda: salida_de_usuario.mostrar_plantel_venta(
-                resultados["equipo_seleccionado"], equipos
-            ),
-            2: lambda: logica_de_negocio.efectuar_venta(
-                resultados["jugador_seleccionado"],
-                resultados["equipo_seleccionado"],
-                equipos,
-            ),
-        }
-        resultado_de_funcion = funciones_a_ejecutar[i]()
+    if (
+        logica_de_negocio.efectuar_venta(
+            jugador_seleccionado, equipo_seleccionado, equipos
+        )
+        == "salir"
+    ):
+        return
 
-        if resultado_de_funcion == "salir":
-            break
-        if resultado_de_funcion is None:
-            break
-
-        resultados[variables[i]] = resultado_de_funcion
-        i += 1
 
 def ver_plantel(equipos: dict):
     """Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
     del menu de ver plantel. Permite ver el plantel de jugadores del equipo seleccionado.
     """
-    i = 0
-    resultados = {}
-
-    variables = [
-        "equipo_seleccionado",
-        "resultado_plantel",
-    ]
-
-    while i < len(variables):
-        funciones_a_ejecutar = {
-            0: lambda: salida_de_usuario.mostrar_equipos(equipos),
-            1: lambda: salida_de_usuario.mostrar_plantel(
-                resultados["equipo_seleccionado"], equipos
-            ),
-        }
-        resultado_de_funcion = funciones_a_ejecutar[i]()
-
-        if resultado_de_funcion == "salir":
-            break
-        if resultado_de_funcion is None:
-            break
-
-        resultados[variables[i]] = resultado_de_funcion
-        i += 1
+    equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
+    if not equipo_seleccionado or equipo_seleccionado == 'salir':
+        return
+    salida_de_usuario.mostrar_plantel(equipo_seleccionado, equipos)
 
 def armar_alineacion(equipos: dict):
     """Esta funcion permite crear una alineación de jugadores.
     - Si alguna de las funciones devuelve "salir" se vuelve al menú principal.
     """
-    i = 0
-    resultados = {}
-    variables = [
-        "equipo_seleccionado",
-        "formacion_seleccionada",
-        "alineacion_seleccionada",
-    ]
-
-    while i < len(variables):
-        funciones_a_ejecutar = {
-            0: lambda: salida_de_usuario.mostrar_equipos(equipos),
-            1: lambda: entrada_de_usuario.pedir_formacion(
-                resultados["equipo_seleccionado"], equipos
-            ),
-            2: lambda: salida_de_usuario.mostrar_jugadores(
-                equipos,
-                resultados["equipo_seleccionado"],
-                resultados["formacion_seleccionada"],
-            ),
-        }
-        resultado_de_funcion = funciones_a_ejecutar[i]()
-
-        if resultado_de_funcion == "salir":
+    while True:
+        equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
+        if not equipo_seleccionado or equipo_seleccionado == 'salir':
             break
-        resultados[variables[i]] = resultado_de_funcion
-        i += 1
-    if i == 3:
-        print(
-            MSG_ALINEACION_GUARDADA.format(
-                nombre_equipo=resultados["equipo_seleccionado"]
-            )
+        formacion_seleccionada = entrada_de_usuario.pedir_formacion(
+                    equipo_seleccionado, equipos
+                )
+        if not formacion_seleccionada or formacion_seleccionada == 'salir':
+            break
+        alineacion_seleccionada = salida_de_usuario.mostrar_jugadores(
+            equipos,
+            equipo_seleccionado,
+            formacion_seleccionada,
         )
-        equipos[resultados["equipo_seleccionado"]]["alineacion"] = resultados[
-            "alineacion_seleccionada"
-        ]
-
+        if alineacion_seleccionada:
+            print(
+                MSG_ALINEACION_GUARDADA.format(
+                    nombre_equipo=equipo_seleccionado
+                )
+            )
+            equipos[equipo_seleccionado]["alineacion"] = alineacion_seleccionada
+    
 def ver_alineacion(equipos: dict):
     """Esta funcion imprime la alineación de jugadores del equipo seleccionado.
     - Si alguna de las funciones devuelve "salir" se vuelve al menú principal.
     """
-    i = 0
-    resultados = {}
-    variables = [
-        "equipo_seleccionado",
-        "mensaje",
-    ]
-    while i < len(variables):
-        funciones_a_ejecutar = {
-            0: lambda: salida_de_usuario.mostrar_equipos(equipos),
-            1: lambda: salida_de_usuario.mostrar_alineacion(
-                resultados["equipo_seleccionado"], equipos
-            ),
-        }
-
-        resultado_de_funcion = funciones_a_ejecutar[i]()
-
-        if resultado_de_funcion == "salir":
+    while True:
+        equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
+        if not equipo_seleccionado or equipo_seleccionado == 'salir':
             break
-        resultados[variables[i]] = resultado_de_funcion
-        i += 1
-    if i == 2:
-        print(resultados["mensaje"])
+        mensaje = salida_de_usuario.mostrar_alineacion(equipo_seleccionado, equipos)
+        if not mensaje or mensaje == 'salir':
+            break
+        print(mensaje)
 
 def ver_jugador_mas_utilizado(equipos: dict):
     """Recibe el diccionario de equipos e imprime los jugadores más utilizados.
