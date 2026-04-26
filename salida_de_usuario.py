@@ -244,21 +244,22 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
         jugadores_ya_elegidos = manejo_de_alineaciones.obtener_jugadores_ya_elegidos(
             alineacion
         )
+        plantel = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
         listas_filtradas = {
             "Suplente": sorted(
                 [
                     jugador
-                    for jugador in equipos[equipo]["plantel"]
+                    for jugador in plantel
                     if jugador not in jugadores_ya_elegidos
-                ]
+                ], key=lambda x: x['nombre']
             ),
             "Capitan": sorted(
                 [
                     jugador
-                    for jugador in equipos[equipo]["plantel"]
+                    for jugador in plantel
                     if jugador in jugadores_ya_elegidos
                     and jugador not in alineacion.get("Suplentes", [])
-                ]
+                ], key=lambda x: x['nombre']
             ),
         }
         lista_filtrada = listas_filtradas.get(
@@ -266,8 +267,8 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
             sorted(
                 [
                     jugador
-                    for jugador in equipos[equipo]["plantel"]
-                    if jugador[1] == posicion
+                    for jugador in plantel
+                    if jugador['posicion'] == posicion
                 ]
             ),
         )
