@@ -112,7 +112,7 @@ def pedir_jugadores(
 
 # Vender
 
-def pedir_entrada(equipo: str, equipos: dict)-> str | None:
+def pedir_entrada(plantel_ordenado)-> str | None:
     """Funcion que pide la entrada del jugador a vender.
     - Si la entrada es "**" devuelve "salir" y vuelve al menu principal
     - Si la entrada no es un numero imprime ERROR_INPUT_INVALIDO y devuelve None
@@ -127,7 +127,7 @@ def pedir_entrada(equipo: str, equipos: dict)-> str | None:
         print(ERROR_INPUT_INVALIDO)
         return None
     if int(entrada_del_usuario) < 1 or int(entrada_del_usuario) > len(
-        equipos[equipo]["plantel"]
+        plantel_ordenado
     ):
         print(ERROR_SELECCION_INVALIDA)
         return None

@@ -129,10 +129,11 @@ def mostrar_plantel_venta(equipo: str, equipos: dict) -> str | None | tuple:
     - Si la entrada es valida devuelve la tupla del jugador a vender.
 
     """
-    mostrar_plantel(equipo, equipos)
+    if mostrar_plantel(equipo, equipos) == SALIR:
+        return SALIR
     plantel_ordenado = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
     while True:
-        jugador_a_vender = entrada_de_usuario.pedir_entrada(equipo, equipos)
+        jugador_a_vender = entrada_de_usuario.pedir_entrada(plantel_ordenado)
         if jugador_a_vender == SALIR:
             return SALIR
         if jugador_a_vender is None:
