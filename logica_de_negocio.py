@@ -91,7 +91,8 @@ def contar_jugadores(equipos: dict)-> dict:
         tipo_de_jugador = ["Suplentes", "Titulares"]
         for tipo in tipo_de_jugador:
             for jugador in alineacion.get(tipo, []):
-                conteo[jugador] = conteo.get(jugador, 0) + 1
+                clave_jugador = (jugador['nombre'], jugador['posicion'])
+                conteo[clave_jugador] = conteo.get(clave_jugador, 0) + 1
     return conteo
 
 def buscar_maximos(conteo: dict)-> list:

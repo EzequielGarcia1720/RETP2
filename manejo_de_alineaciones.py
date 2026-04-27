@@ -8,6 +8,7 @@ from constantes import (
 )
 import entrada_de_usuario
 
+
 def procesar_formacion(formacion_seleccionada: str):
     """Recibe la entrada del usuario, la "splitea" y devuelve la lista creada
     - Si len(lista) es distinto a 3 retorna "pedir de nuevo" e imprime ERROR_FORMACION_INVALIDA
@@ -79,7 +80,9 @@ def obtener_seleccion_posicion(
     - Sino devuelve una lista con los jugadores seleccionados
     """
     while True:
-        jugadores = entrada_de_usuario.pedir_jugadores_alineacion(formacion, posicion, lista_filtrada)
+        jugadores = entrada_de_usuario.pedir_jugadores_alineacion(
+            formacion, posicion, lista_filtrada
+        )
         if jugadores == SALIR:
             return SALIR
         if jugadores:
@@ -98,7 +101,8 @@ def obtener_jugadores_ya_elegidos(alineacion: dict) -> list:
             elegidos.append(valor_posicion)
     return elegidos
 
-def adquirir_formacion(equipos: dict, equipo: str)-> list:
+
+def adquirir_formacion(equipos: dict, equipo: str) -> list:
     """Recibe el diccionario de equipos y el nombre del equipo.
     Devuelve una lista con la formacion del equipo."""
     alineacion = equipos[equipo].get("alineacion", {})
@@ -110,23 +114,34 @@ def adquirir_formacion(equipos: dict, equipo: str)-> list:
     return formacion
 
 
-def adquirir_jugadores_por_posicion(equipos: dict, equipo: str, posicion: str) -> list | str:
+def adquirir_jugadores_por_posicion(
+    equipos: dict, equipo: str, posicion: str
+) -> list | str:
     """Recibe el diccionario de equipos, el nombre del equipo y la posicion.
     Devuelve la lista de jugadores o el nombre del jugador para esa posicion."""
     alineacion = equipos[equipo].get("alineacion", {})
     jugadores = alineacion.get(posicion)
     if not jugadores:
-        return [] if posicion in ["Defensores", "Mediocampistas", "Delanteros", "Suplentes"] else ""
+        return (
+            []
+            if posicion in ["Defensores", "Mediocampistas", "Delanteros", "Suplentes"]
+            else ""
+        )
     if isinstance(jugadores, list):
-        return sorted([jugador[0] for jugador in jugadores]) if posicion != "Suplentes" else sorted(jugadores)
-    return jugadores[0]
+        return (
+            sorted([jugador["nombre"] for jugador in jugadores])
+            if posicion != "Suplentes"
+            else sorted(jugadores, key=lambda x: x["nombre"])
+        )
+    return jugadores["nombre"]
+
 
 def adquirir_todas_las_posiciones(equipos, equipo):
     return (
-        adquirir_jugadores_por_posicion(equipos,equipo,'Defensores'),
-        adquirir_jugadores_por_posicion(equipos,equipo,'Mediocampistas'),
-        adquirir_jugadores_por_posicion(equipos,equipo,'Delanteros'),
-        adquirir_jugadores_por_posicion(equipos,equipo,'Arquero'),
-        adquirir_jugadores_por_posicion(equipos,equipo,'Suplentes'),
-        adquirir_jugadores_por_posicion(equipos,equipo,'Capitan')
+        adquirir_jugadores_por_posicion(equipos, equipo, "Defensores"),
+        adquirir_jugadores_por_posicion(equipos, equipo, "Mediocampistas"),
+        adquirir_jugadores_por_posicion(equipos, equipo, "Delanteros"),
+        adquirir_jugadores_por_posicion(equipos, equipo, "Arquero"),
+        adquirir_jugadores_por_posicion(equipos, equipo, "Suplentes"),
+        adquirir_jugadores_por_posicion(equipos, equipo, "Capitan"),
     )

@@ -57,6 +57,8 @@ def main(datos_jugadores: list, presupuesto_inicial: int):
                 return False
 
             acciones[opcion_seleccionada]()
+        elif opcion_seleccionada.isalpha():
+            print(ERROR_INPUT_INVALIDO)
         else:
             print(ERROR_SELECCION_INVALIDA)
 

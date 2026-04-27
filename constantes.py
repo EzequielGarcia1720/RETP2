@@ -87,3 +87,14 @@ MSG_NO_INFORMACION = "No hay información suficiente para mostrar estadísticas"
 SALIR = "salir"
 PEDIR_DE_NUEVO = "pedir de nuevo"
 ENTRADA_SALIR = "**"
+
+# ----- Constantes de Inputs ------
+INPUT_OPCION = "Seleccione una opción: "
+INPUT_NOMBRE_EQUIPO = "Ingrese el nombre de su equipo: "
+INPUT_EQUIPO = 'Seleccione un equipo: '
+INPUT_FORMACION = 'Ingrese una formación: '
+INPUT_COMPRA = "> : Siguiente página\n< : Página anterior\nSeleccione una opcion: "
+INPUT_VENTA = "Seleccione el jugador a vender: "
+INPUT_JUGADORES_ALINEACION = "Seleccione {cantidad} jugador(es): "
+INPUT_CAPITAN_ALINEACION = "Seleccione un capitán: "
+INPUT_POSICIONES = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. Delantero\nSeleccione una opcion: "

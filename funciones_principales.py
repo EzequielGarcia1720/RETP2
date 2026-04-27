@@ -5,6 +5,8 @@ from constantes import (
     MSG_ALINEACION_GUARDADA,
     MSG_NO_INFORMACION,
     TEMPLATE_ESTADISTICA_JUGADORES,
+    SALIR,
+    ENTRADA_SALIR
 )
 import validaciones
 import salida_de_usuario
@@ -21,7 +23,7 @@ def crear_equipos(equipos: dict, presupuesto: int):
 
     while True:
         nombre_equipo = input("Ingrese el nombre de su equipo: ")
-        if nombre_equipo == "**":
+        if nombre_equipo == ENTRADA_SALIR:
             break
         if validaciones.existe_equipo(nombre_equipo, equipos):
             print(ERROR_EQUIPO_EXISTENTE)
@@ -62,13 +64,13 @@ def comprar_jugadores(equipos: dict, dataset: list):
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-        if not equipo_seleccionado or equipo_seleccionado == "salir":
+        if not equipo_seleccionado or equipo_seleccionado == SALIR:
             break
         posicion_seleccionada = salida_de_usuario.mostrar_posiciones(
             equipo_seleccionado,
             equipos,
         )
-        if not posicion_seleccionada or posicion_seleccionada == "salir":
+        if not posicion_seleccionada or posicion_seleccionada == SALIR:
             break
         jugadores_seleccionados = salida_de_usuario.mostrar_jugadores_compra(
             posicion_seleccionada,
@@ -76,14 +78,14 @@ def comprar_jugadores(equipos: dict, dataset: list):
             dataset,
             equipos,
         )
-        if not jugadores_seleccionados or jugadores_seleccionados == "salir":
+        if not jugadores_seleccionados or jugadores_seleccionados == SALIR:
             break
         jugadores_verificados = logica_de_negocio.verificar_presupuesto(
             jugadores_seleccionados,
             equipo_seleccionado,
             equipos,
         )
-        if not jugadores_verificados or jugadores_verificados == "salir":
+        if not jugadores_verificados or jugadores_verificados == SALIR:
             break
         if (
             logica_de_negocio.efectuar_compra(
@@ -91,7 +93,7 @@ def comprar_jugadores(equipos: dict, dataset: list):
                 equipo_seleccionado,
                 equipos,
             )
-            == "salir"
+            == SALIR
         ):
             break
 
@@ -100,20 +102,20 @@ def vender_jugador(equipos: dict):
     """Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
     del menu de vender jugador."""
     equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-    if not equipo_seleccionado or equipo_seleccionado == "salir":
+    if not equipo_seleccionado or equipo_seleccionado == SALIR:
         return
 
     jugador_seleccionado = salida_de_usuario.mostrar_plantel_venta(
         equipo_seleccionado, equipos
     )
-    if not jugador_seleccionado or jugador_seleccionado == "salir":
+    if not jugador_seleccionado or jugador_seleccionado == SALIR:
         return
 
     if (
         logica_de_negocio.efectuar_venta(
             jugador_seleccionado, equipo_seleccionado, equipos
         )
-        == "salir"
+        == SALIR
     ):
         return
 
@@ -123,48 +125,51 @@ def ver_plantel(equipos: dict):
     del menu de ver plantel. Permite ver el plantel de jugadores del equipo seleccionado.
     """
     equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-    if not equipo_seleccionado or equipo_seleccionado == 'salir':
+    if not equipo_seleccionado or equipo_seleccionado == SALIR:
         return
     salida_de_usuario.mostrar_plantel(equipo_seleccionado, equipos)
 
 def armar_alineacion(equipos: dict):
     """Esta funcion permite crear una alineación de jugadores.
-    - Si alguna de las funciones devuelve "salir" se vuelve al menú principal.
+    - Si alguna de las funciones devuelve la constante SALIR se vuelve al menú principal.
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-        if not equipo_seleccionado or equipo_seleccionado == 'salir':
+        if not equipo_seleccionado or equipo_seleccionado == SALIR:
             break
         formacion_seleccionada = entrada_de_usuario.pedir_formacion(
                     equipo_seleccionado, equipos
                 )
-        if not formacion_seleccionada or formacion_seleccionada == 'salir':
+        if not formacion_seleccionada or formacion_seleccionada == SALIR:
             break
         alineacion_seleccionada = salida_de_usuario.mostrar_jugadores(
             equipos,
             equipo_seleccionado,
             formacion_seleccionada,
         )
-        if alineacion_seleccionada:
-            print(
-                MSG_ALINEACION_GUARDADA.format(
-                    nombre_equipo=equipo_seleccionado
-                )
+        if not alineacion_seleccionada or alineacion_seleccionada == SALIR:
+            break
+        print(
+            MSG_ALINEACION_GUARDADA.format(
+                nombre_equipo=equipo_seleccionado
             )
-            equipos[equipo_seleccionado]["alineacion"] = alineacion_seleccionada
-    
+        )
+        equipos[equipo_seleccionado]["alineacion"] = alineacion_seleccionada
+        break
+
 def ver_alineacion(equipos: dict):
     """Esta funcion imprime la alineación de jugadores del equipo seleccionado.
-    - Si alguna de las funciones devuelve "salir" se vuelve al menú principal.
+    - Si alguna de las funciones devuelve la constante SALIR se vuelve al menú principal.
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-        if not equipo_seleccionado or equipo_seleccionado == 'salir':
+        if not equipo_seleccionado or equipo_seleccionado == SALIR:
             break
         mensaje = salida_de_usuario.mostrar_alineacion(equipo_seleccionado, equipos)
-        if not mensaje or mensaje == 'salir':
+        if not mensaje or mensaje == SALIR:
             break
         print(mensaje)
+        break
 
 def ver_jugador_mas_utilizado(equipos: dict):
     """Recibe el diccionario de equipos e imprime los jugadores más utilizados.
@@ -193,5 +198,5 @@ def ver_jugador_mas_utilizado(equipos: dict):
             defensor=defensor_max,
             mediocampista=mediocampista_max,
             delantero=delantero_max,
-        )
+        ).rstrip("\n")
     )

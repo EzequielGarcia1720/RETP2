@@ -2,7 +2,13 @@ from constantes import (
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
     SALIR,
-    ENTRADA_SALIR
+    ENTRADA_SALIR,
+    INPUT_FORMACION,
+    INPUT_OPCION,
+    INPUT_COMPRA,
+    INPUT_VENTA,
+    INPUT_JUGADORES_ALINEACION,
+    INPUT_CAPITAN_ALINEACION,
 )
 import validacion_de_entrada
 import validaciones
@@ -24,13 +30,13 @@ def pedir_entero(mensaje_input: str, minimo: int, maximo: int) -> int:
     while True:
         if not opcion_seleccionada.isdigit():
             print(ERROR_INPUT_INVALIDO)
-            opcion_seleccionada = input("Seleccione una opción: ")
+            opcion_seleccionada = input(INPUT_OPCION)
             if opcion_seleccionada == ENTRADA_SALIR:
                 return None
             continue
         if int(opcion_seleccionada) < minimo or int(opcion_seleccionada) > maximo:
             print(ERROR_SELECCION_INVALIDA)
-            opcion_seleccionada = input("Seleccione una opción: ")
+            opcion_seleccionada = input(INPUT_OPCION)
             if opcion_seleccionada == ENTRADA_SALIR:
                 return None
             continue
@@ -56,9 +62,7 @@ def pedir_jugadores(
     pagina = pagina_actual
     maximo = min(5, len(jugadores_disponibles) - pagina * 5)
 
-    entrada_del_usuario = input(
-        "> : Siguiente página\n< : Página anterior\nSeleccione una opcion: "
-    )
+    entrada_del_usuario = input(INPUT_COMPRA)
 
     while True:
         match entrada_del_usuario:
@@ -72,7 +76,7 @@ def pedir_jugadores(
                     break
 
                 print(ERROR_SELECCION_INVALIDA)
-                entrada_del_usuario = input("Seleccione una opcion: ")
+                entrada_del_usuario = input(INPUT_OPCION)
                 continue
 
             case ">":
@@ -81,7 +85,7 @@ def pedir_jugadores(
                     break
 
                 print(ERROR_SELECCION_INVALIDA)
-                entrada_del_usuario = input("Seleccione una opcion: ")
+                entrada_del_usuario = input(INPUT_OPCION)
                 continue
 
             case _:
@@ -93,7 +97,7 @@ def pedir_jugadores(
                 )
 
                 if not indices_de_jugadores:
-                    entrada_del_usuario = input("Seleccione una opcion: ")
+                    entrada_del_usuario = input(INPUT_OPCION)
                     continue
 
                 lista_jugadores = []
@@ -103,7 +107,7 @@ def pedir_jugadores(
                 if not validaciones.verificar_existencia_jugador(
                     lista_jugadores, nombre_equipo, equipos
                 ):
-                    entrada_del_usuario = input("Seleccione una opcion: ")
+                    entrada_del_usuario = input(INPUT_OPCION)
                     continue
 
                 resultado_a_devolver = lista_jugadores
@@ -120,7 +124,7 @@ def pedir_entrada(plantel_ordenado)-> str | None:
     imprime ERROR_SELECCION_INVALIDA y devuelve None
     - Si la entrada es valida devuelve la entrada del usuario
     """
-    entrada_del_usuario = input("Seleccione el jugador a vender: ")
+    entrada_del_usuario = input(INPUT_VENTA)
     if entrada_del_usuario == "**":
         return SALIR
     if not entrada_del_usuario.isdigit():
@@ -144,7 +148,7 @@ def pedir_formacion(equipo: str, equipos: dict) -> list | str | None:
     False vuelve al menu principal, sino devuelve una lista con la formacion seleccionada
     """
     while True:
-        formacion_seleccionada = input("Ingrese una formación: ")
+        formacion_seleccionada = input(INPUT_FORMACION)
         if formacion_seleccionada == "**":
             return SALIR
         formacion_seleccionada = manejo_de_alineaciones.procesar_formacion(formacion_seleccionada)
@@ -182,9 +186,9 @@ def pedir_jugadores_alineacion(
 
     cantidad = cantidades.get(posicion)
     if posicion != "Capitan":
-        entrada_del_usuario = input(f"Seleccione {cantidad} jugador(es): ")
+        entrada_del_usuario = input(INPUT_JUGADORES_ALINEACION.format(cantidad=cantidad))
     else:
-        entrada_del_usuario = input("Seleccione un capitán: ")
+        entrada_del_usuario = input(INPUT_CAPITAN_ALINEACION)
     if entrada_del_usuario == "**":
         return SALIR
 
