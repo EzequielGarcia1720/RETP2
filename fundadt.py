@@ -1,7 +1,8 @@
 from constantes import (
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
-    MSG_FIN
+    MSG_FIN,
+    ENTRADA_SALIR
 )
 import funciones_principales
 
@@ -36,7 +37,7 @@ def main(datos_jugadores: list, presupuesto_inicial: int):
     while True:
         opcion_seleccionada = input(menu_principal)
 
-        if opcion_seleccionada == "**":
+        if opcion_seleccionada == ENTRADA_SALIR:
             print(ERROR_INPUT_INVALIDO)
             continue
 

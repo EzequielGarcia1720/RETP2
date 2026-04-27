@@ -24,7 +24,7 @@ def pedir_entero(mensaje_input: str, minimo: int, maximo: int) -> int:
     - En caso de ingresar "**" devuelve None y vuelve al menu principal
     """
     opcion_seleccionada = input(mensaje_input)
-    if opcion_seleccionada == "**":
+    if opcion_seleccionada == ENTRADA_SALIR:
         return None
 
     while True:
@@ -125,7 +125,7 @@ def pedir_entrada(plantel_ordenado)-> str | None:
     - Si la entrada es valida devuelve la entrada del usuario
     """
     entrada_del_usuario = input(INPUT_VENTA)
-    if entrada_del_usuario == "**":
+    if entrada_del_usuario == ENTRADA_SALIR:
         return SALIR
     if not entrada_del_usuario.isdigit():
         print(ERROR_INPUT_INVALIDO)
@@ -149,7 +149,7 @@ def pedir_formacion(equipo: str, equipos: dict) -> list | str | None:
     """
     while True:
         formacion_seleccionada = input(INPUT_FORMACION)
-        if formacion_seleccionada == "**":
+        if formacion_seleccionada == ENTRADA_SALIR:
             return SALIR
         formacion_seleccionada = manejo_de_alineaciones.procesar_formacion(formacion_seleccionada)
         if formacion_seleccionada == "pedir de nuevo":
@@ -189,7 +189,7 @@ def pedir_jugadores_alineacion(
         entrada_del_usuario = input(INPUT_JUGADORES_ALINEACION.format(cantidad=cantidad))
     else:
         entrada_del_usuario = input(INPUT_CAPITAN_ALINEACION)
-    if entrada_del_usuario == "**":
+    if entrada_del_usuario == ENTRADA_SALIR:
         return SALIR
 
     jugadores_seleccionados = None
