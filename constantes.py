@@ -103,7 +103,7 @@ INPUT_POSICIONES = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. D
 LARGO_MAX_NOMBRE_EQUIPO = 50
 
 # ---- Constantes mostrar_jugadores_compra ----
-JUGADORES_POR_PAGINA = 6
+JUGADORES_POR_PAGINA = 5
 
 # ---- -----
 LISTA_PLANTEL_ARQUERO = "Arquero"
