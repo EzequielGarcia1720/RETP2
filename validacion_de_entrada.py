@@ -15,13 +15,17 @@ def identificar_entrada(
     es_individual = entrada_del_usuario.lstrip("-").isdigit()
     es_multiple = "-" in entrada_del_usuario
 
-    casos_de_entrada = {
-        (True, False): lambda: [entrada_del_usuario],
-        (False, True): lambda: validaciones.procesar_multiples(entrada_del_usuario, input_err_msg),
-    }
-    jugadores_seleccionados = casos_de_entrada.get(
-        (es_individual, es_multiple), lambda: print(sel_inv_err_msg)
-    )()
+    if es_individual:
+        jugadores_seleccionados = [entrada_del_usuario]
+    elif es_multiple:
+        jugadores_seleccionados = validaciones.procesar_multiples(
+            entrada_del_usuario, input_err_msg
+        )
+        if jugadores_seleccionados is None:
+            return None
+    else:
+        print(sel_inv_err_msg)
+
     if jugadores_seleccionados is None:
         return None
     for indice in jugadores_seleccionados:
