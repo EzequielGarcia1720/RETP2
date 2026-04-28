@@ -171,26 +171,11 @@ def mostrar_plantel(equipo: str, equipos: dict):
         mensaje += MSG_PLANTEL_VACIO
         print(mensaje)
         return SALIR
-    roles = {
-        "Titular": "Titular",
-        "Suplente": "Suplente",
-        "Reserva": "Reserva",
-    }
-    casos_de_rol = {
-        (True, False): lambda: roles["Titular"],
-        (False, True): lambda: roles["Suplente"],
-        (False, False): lambda: roles["Reserva"],
-    }
 
     contador = 1
     plantel_ordenado = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
     for jugador in plantel_ordenado:
-        rol_actual = casos_de_rol.get(
-            (
-                validaciones.es_titular(jugador, equipo, equipos),
-                validaciones.es_suplente(jugador, equipo, equipos),
-            )
-        )()
+        rol_actual = manejo_de_equipos.asignar_rol(jugador, equipos, equipo)
         mensaje += TEMPLATE_JUGADOR_PLANTEL.format(
             n=contador,
             nombre_jugador=jugador["nombre"],
