@@ -5,6 +5,7 @@ from constantes import (
     ERROR_SELECCION_INVALIDA,
     PEDIR_DE_NUEVO,
     SALIR,
+    MINIMO_JUGADORES_EN_FORMACION,
 )
 import entrada_de_usuario
 
@@ -30,7 +31,7 @@ def procesar_formacion(formacion_seleccionada: str):
             print(ERROR_FORMACION_INVALIDA)
             return PEDIR_DE_NUEVO
         suma += int(jugadores_posicion)
-    if suma != 10:
+    if suma != MINIMO_JUGADORES_EN_FORMACION:
         print(ERROR_FORMACION_INVALIDA)
         return PEDIR_DE_NUEVO
 

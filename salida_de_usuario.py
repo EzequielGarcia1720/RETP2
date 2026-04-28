@@ -22,7 +22,8 @@ from constantes import (
     TEMPLATE_PLANTEL,
     TEMPLATE_PRESUPUESTO,
     INPUT_EQUIPO,
-    INPUT_POSICIONES
+    INPUT_POSICIONES,
+    JUGADORES_POR_PAGINA,
 )
 import entrada_de_usuario
 import validaciones
@@ -84,7 +85,13 @@ def mostrar_jugadores_compra(
     while True:
         print(HEADER_JUGADORES)
         for i, jugador in enumerate(
-            jugadores_disponibles[pagina_actual * 5 : pagina_actual * 5 + 5], start=1
+            jugadores_disponibles[
+                pagina_actual
+                * JUGADORES_POR_PAGINA : pagina_actual
+                * JUGADORES_POR_PAGINA
+                + JUGADORES_POR_PAGINA
+            ],
+            start=1,
         ):
             print(
                 TEMPLATE_JUGADOR_PRECIO.format(
@@ -106,6 +113,7 @@ def mostrar_jugadores_compra(
             return SALIR
         return jugadores_seleccionados
 
+
 def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo):
     print(
         MSG_COMPRA_EXITOSA.format(
@@ -114,6 +122,7 @@ def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equ
             presupuesto=presupuesto_equipo,
         )
     )
+
 
 # Vender
 
@@ -184,10 +193,10 @@ def mostrar_plantel(equipo: str, equipos: dict):
         )()
         mensaje += TEMPLATE_JUGADOR_PLANTEL.format(
             n=contador,
-            nombre_jugador=jugador['nombre'],
-            posicion=jugador['posicion'],
+            nombre_jugador=jugador["nombre"],
+            posicion=jugador["posicion"],
             rol_actual=rol_actual,
-            precio=jugador['precio'],
+            precio=jugador["precio"],
         )
         if contador < len(plantel_ordenado):
             mensaje += "\n"
@@ -208,14 +217,14 @@ def imprimir_lista_jugadores(header: str, lista_filtrada: list):
         for indice, jugador in enumerate(lista_filtrada):
             mensaje += "\n" + TEMPLATE_JUGADOR_POSICION.format(
                 n=indice + 1,
-                nombre_jugador=jugador['nombre'],
-                posicion=jugador['posicion'],
+                nombre_jugador=jugador["nombre"],
+                posicion=jugador["posicion"],
             )
     else:
         for indice, jugador in enumerate(lista_filtrada):
             mensaje += "\n" + TEMPLATE_JUGADOR.format(
                 n=indice + 1,
-                nombre_jugador=jugador['nombre'],
+                nombre_jugador=jugador["nombre"],
             )
     print(mensaje)
 
@@ -251,7 +260,8 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
                     jugador
                     for jugador in plantel
                     if jugador not in jugadores_ya_elegidos
-                ], key=lambda x: x['nombre']
+                ],
+                key=lambda x: x["nombre"],
             ),
             "Capitan": sorted(
                 [
@@ -259,18 +269,15 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
                     for jugador in plantel
                     if jugador in jugadores_ya_elegidos
                     and jugador not in alineacion.get("Suplentes", [])
-                ], key=lambda x: x['nombre']
+                ],
+                key=lambda x: x["nombre"],
             ),
         }
         lista_filtrada = listas_filtradas.get(
             posicion,
             sorted(
-                [
-                    jugador
-                    for jugador in plantel
-                    if jugador['posicion'] == posicion
-                ],
-                key=lambda x: x['nombre'],
+                [jugador for jugador in plantel if jugador["posicion"] == posicion],
+                key=lambda x: x["nombre"],
             ),
         )
         imprimir_lista_jugadores(header, lista_filtrada)
@@ -279,7 +286,7 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
             posicion, lista_filtrada, formacion_seleccionada
         )
 
-        if jugadores_seleccionados == 'salir':
+        if jugadores_seleccionados == "salir":
             return SALIR
 
         alineacion[clave_dict] = jugadores_seleccionados
@@ -317,7 +324,7 @@ def mostrar_alineacion(equipo: str, equipos: dict) -> str:
         capitan=capitan,
         suplentes="\n".join(
             TEMPLATE_JUGADOR_POSICION.format(
-                n=indice, nombre_jugador=jugador['nombre'], posicion=jugador['posicion']
+                n=indice, nombre_jugador=jugador["nombre"], posicion=jugador["posicion"]
             )
             for indice, jugador in enumerate(suplentes_sin_formato, start=1)
         ),

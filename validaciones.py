@@ -2,6 +2,8 @@
 from constantes import (
     ERROR_JUGADOR_EXISTENTE,
     MSG_CANTIDAD_JUGADORES_INSUFICIENTE,
+    LARGO_MAX_NOMBRE_EQUIPO,
+    MINIMO_JUGADORES_EN_PLANTEL
 )
 import manejo_de_equipos
 
@@ -11,7 +13,7 @@ def validar_formato_equipo(nombre_equipo):
     caracteres especiales, exceder los 50 caracteres ni ser una cadena vacia. Si el nombre es
     valido, se retorna True, de lo contrario se retorna False."""
     if (
-        len(nombre_equipo) > 50
+        len(nombre_equipo) > LARGO_MAX_NOMBRE_EQUIPO
         or len(nombre_equipo) == 0
         or nombre_equipo == ""
         or nombre_equipo.isdigit()
@@ -146,7 +148,7 @@ def verificar_cant_jugadores(
     - Sino devuelve True
     """
     plantel = manejo_de_equipos.ordenar_jugadores(equipos,equipo)
-    if len(plantel) < 16:
+    if len(plantel) < MINIMO_JUGADORES_EN_PLANTEL:
         print(MSG_CANTIDAD_JUGADORES_INSUFICIENTE)
         return False
     arqueros = len(equipos[equipo]['plantel']['Arquero'])

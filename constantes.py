@@ -98,3 +98,13 @@ INPUT_VENTA = "Seleccione el jugador a vender: "
 INPUT_JUGADORES_ALINEACION = "Seleccione {cantidad} jugador(es): "
 INPUT_CAPITAN_ALINEACION = "Seleccione un capitán: "
 INPUT_POSICIONES = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. Delantero\nSeleccione una opcion: "
+
+# ---- Constantes crear_equipo ----
+LARGO_MAX_NOMBRE_EQUIPO = 50
+
+# ---- Constantes mostrar_jugadores_compra ----
+JUGADORES_POR_PAGINA = 5
+
+# ---- Constantes armar_alineacion ----
+MINIMO_JUGADORES_EN_PLANTEL = 16
+MINIMO_JUGADORES_EN_FORMACION = 10
