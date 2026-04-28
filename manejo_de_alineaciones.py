@@ -1,8 +1,14 @@
 from constantes import (
+    ALINEACION_ARQUERO,
+    ALINEACION_CAPITAN,
     ERROR_CANTIDAD_INVALIDA,
     ERROR_FORMACION_INVALIDA,
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
+    LISTA_ALINEACION_DEFENSORES,
+    LISTA_ALINEACION_DELANTEROS,
+    LISTA_ALINEACION_MEDIOCAMPISTAS,
+    LISTA_ALINEACION_SUPLENTES,
     PEDIR_DE_NUEVO,
     SALIR,
     MINIMO_JUGADORES_EN_FORMACION,
@@ -125,7 +131,13 @@ def adquirir_jugadores_por_posicion(
     if not jugadores:
         return (
             []
-            if posicion in ["Defensores", "Mediocampistas", "Delanteros", "Suplentes"]
+            if posicion
+            in [
+                LISTA_ALINEACION_DEFENSORES,
+                LISTA_ALINEACION_MEDIOCAMPISTAS,
+                LISTA_ALINEACION_DELANTEROS,
+                LISTA_ALINEACION_SUPLENTES,
+            ]
             else ""
         )
     if isinstance(jugadores, list):
@@ -139,10 +151,10 @@ def adquirir_jugadores_por_posicion(
 
 def adquirir_todas_las_posiciones(equipos, equipo):
     return (
-        adquirir_jugadores_por_posicion(equipos, equipo, "Defensores"),
-        adquirir_jugadores_por_posicion(equipos, equipo, "Mediocampistas"),
-        adquirir_jugadores_por_posicion(equipos, equipo, "Delanteros"),
-        adquirir_jugadores_por_posicion(equipos, equipo, "Arquero"),
-        adquirir_jugadores_por_posicion(equipos, equipo, "Suplentes"),
-        adquirir_jugadores_por_posicion(equipos, equipo, "Capitan"),
+        adquirir_jugadores_por_posicion(equipos, equipo, LISTA_ALINEACION_DEFENSORES),
+        adquirir_jugadores_por_posicion(equipos, equipo, LISTA_ALINEACION_MEDIOCAMPISTAS),
+        adquirir_jugadores_por_posicion(equipos, equipo, LISTA_ALINEACION_DELANTEROS),
+        adquirir_jugadores_por_posicion(equipos, equipo, ALINEACION_ARQUERO),
+        adquirir_jugadores_por_posicion(equipos, equipo, LISTA_ALINEACION_SUPLENTES),
+        adquirir_jugadores_por_posicion(equipos, equipo, ALINEACION_CAPITAN),
     )
