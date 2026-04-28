@@ -26,7 +26,6 @@ def validar_formato_equipo(nombre_equipo):
     if (
         len(nombre_equipo) > LARGO_MAX_NOMBRE_EQUIPO
         or len(nombre_equipo) == 0
-        or nombre_equipo == ""
         or nombre_equipo.isdigit()
         or nombre_equipo.rstrip() == ""
     ):
