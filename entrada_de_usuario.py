@@ -1,6 +1,13 @@
 from constantes import (
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
+    JUGADORES_POR_PAGINA,
+    ARQUERO,
+    DEFENSOR,
+    DELANTERO,
+    MEDIOCAMPISTA,
+    ROL_CAPITAN,
+    ROL_SUPLENTE,
     SALIR,
     ENTRADA_SALIR,
     INPUT_FORMACION,
@@ -60,7 +67,7 @@ def pedir_jugadores(
     """
     resultado_a_devolver = None
     pagina = pagina_actual
-    maximo = min(5, len(jugadores_disponibles) - pagina * 5)
+    maximo = min(JUGADORES_POR_PAGINA, len(jugadores_disponibles) - pagina * JUGADORES_POR_PAGINA)
 
     entrada_del_usuario = input(INPUT_COMPRA)
 
@@ -80,7 +87,7 @@ def pedir_jugadores(
                 continue
 
             case ">":
-                if (pagina + 1) * 5 < len(jugadores_disponibles):
+                if (pagina + 1) * JUGADORES_POR_PAGINA < len(jugadores_disponibles):
                     resultado_a_devolver = pagina + 1
                     break
 
@@ -102,7 +109,7 @@ def pedir_jugadores(
 
                 lista_jugadores = []
                 for indice in indices_de_jugadores:
-                    indice_real = (pagina_actual * 5) + int(indice) - 1
+                    indice_real = (pagina_actual * JUGADORES_POR_PAGINA) + int(indice) - 1
                     lista_jugadores.append(jugadores_disponibles[indice_real])
                 if not validaciones.verificar_existencia_jugador(
                     lista_jugadores, nombre_equipo, equipos
@@ -176,16 +183,16 @@ def pedir_jugadores_alineacion(
     """
 
     cantidades = {
-        "Arquero": 1,
-        "Suplente": 5,
-        "Capitan": 1,
-        "Defensor": formacion_seleccionada[0],
-        "Mediocampista": formacion_seleccionada[1],
-        "Delantero": formacion_seleccionada[2],
+        ARQUERO: 1,
+        ROL_SUPLENTE: 5,
+        ROL_CAPITAN: 1,
+        DEFENSOR: formacion_seleccionada[0],
+        MEDIOCAMPISTA: formacion_seleccionada[1],
+        DELANTERO: formacion_seleccionada[2],
     }
 
     cantidad = cantidades.get(posicion)
-    if posicion != "Capitan":
+    if posicion != ROL_CAPITAN:
         entrada_del_usuario = input(INPUT_JUGADORES_ALINEACION.format(cantidad=cantidad))
     else:
         entrada_del_usuario = input(INPUT_CAPITAN_ALINEACION)
@@ -194,7 +201,7 @@ def pedir_jugadores_alineacion(
 
     jugadores_seleccionados = None
 
-    if posicion in {"Arquero", "Capitan"}:
+    if posicion in [ARQUERO, ROL_CAPITAN]:
         if entrada_del_usuario.lstrip("-").isdigit():
             indice = int(entrada_del_usuario) - 1
             if 0 <= indice < len(lista_filtrada):

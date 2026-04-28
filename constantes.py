@@ -103,16 +103,25 @@ INPUT_POSICIONES = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. D
 LARGO_MAX_NOMBRE_EQUIPO = 50
 
 # ---- Constantes mostrar_jugadores_compra ----
-JUGADORES_POR_PAGINA = 5
+JUGADORES_POR_PAGINA = 6
 
 # ---- -----
 LISTA_PLANTEL_ARQUERO = "Arquero"
 LISTA_PLANTEL_DEFENSOR = "Defensor"
 LISTA_PLANTEL_MEDIOCAMPISTA = "Mediocampista"
 LISTA_PLANTEL_DELANTERO = "Delantero"
+
+ARQUERO = "Arquero"
+DEFENSOR = "Defensor"
+MEDIOCAMPISTA = "Mediocampista"
+DELANTERO = "Delantero"
+
 ROL_SUPLENTE = "Suplente"
 ROL_TITULAR = "Titular"
 ROL_RESERVA = "Reserva"
+
+ROL_CAPITAN = "Capitan"
+
 
 
 # ---- Constantes armar_alineacion ----
