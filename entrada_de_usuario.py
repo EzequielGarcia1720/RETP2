@@ -6,6 +6,7 @@ from constantes import (
     DEFENSOR,
     DELANTERO,
     MEDIOCAMPISTA,
+    PEDIR_DE_NUEVO,
     ROL_CAPITAN,
     ROL_SUPLENTE,
     SALIR,
@@ -23,12 +24,12 @@ import manejo_de_alineaciones
 
 def pedir_entero(mensaje_input: str, minimo: int, maximo: int) -> int:
     """Solicita un numero entero al usuario y lo valida.
-    Recibe un mensaje que se imprime a la hora de hacer el input y dos valores enteros,
+    Recibe un mensaje que se imprime en el primer input y dos valores enteros,
     el maximo y el minimo de valores que puede tomar el input como validos.
     - En caso de no ser un numero entero muestra ERROR_INPUT_INVALIDO
     - En caso de no estar entre minimo y maximo muestra ERROR_SELECCION_INVALIDA
     - En caso de ser valido devuelve el numero entero ingresado
-    - En caso de ingresar "**" devuelve None y vuelve al menu principal
+    - En caso de ingresar ENTRADA_SALIR devuelve None y vuelve al menu principal
     """
     opcion_seleccionada = input(mensaje_input)
     if opcion_seleccionada == ENTRADA_SALIR:
@@ -63,7 +64,7 @@ def pedir_jugadores(
         - "<" o ">" para moverse entre paginas (en caso de ser posible, sino imprime
         ERROR_SELECCION_INVALIDA y vuelve a pedir entrada)
         - En cualquier otro caso verifica la entrada, de ser invalida vuelve a pedir entrada,
-        en caso de ser valida devuelve una lista con las tuplas de cada jugador seleccionado.
+        en caso de ser valida devuelve una lista con los diccionarios de cada jugador seleccionado.
     """
     resultado_a_devolver = None
     pagina = pagina_actual
@@ -125,10 +126,10 @@ def pedir_jugadores(
 
 def pedir_entrada(plantel_ordenado)-> str | None:
     """Funcion que pide la entrada del jugador a vender.
-    - Si la entrada es "**" devuelve "salir" y vuelve al menu principal
+    - Si la entrada es ENTRADA_SALIR devuelve SALIR y vuelve al menu principal
     - Si la entrada no es un numero imprime ERROR_INPUT_INVALIDO y devuelve None
-    - Si la entrada es menor a 1 o mayor a la cantidad de jugadores en el plantel
-    imprime ERROR_SELECCION_INVALIDA y devuelve None
+    - Si la entrada es menor a 1 o mayor a len(plantel_ordenado) imprime 
+    ERROR_SELECCION_INVALIDA y devuelve None.
     - Si la entrada es valida devuelve la entrada del usuario
     """
     entrada_del_usuario = input(INPUT_VENTA)
@@ -149,8 +150,8 @@ def pedir_entrada(plantel_ordenado)-> str | None:
 def pedir_formacion(equipo: str, equipos: dict) -> list | str | None:
     """Pide al usuario entrada de una formacion, esta debe
     ser del formato X-Y-Z siendo la suma X Y Z = 10
-    - Si la entrada es "**" devuelve salir
-    - Si formacion seleccionada es "pedir de nuevo" reinicia el while
+    - Si la entrada es ENTRADA_SALIR devuelve SALIR
+    - Si formacion seleccionada es PEDIR_DE_NUEVO reinicia el while
     Si la formacion es valida llama a la funcion verificar_cant_jugadores, si esta devuelve
     False vuelve al menu principal, sino devuelve una lista con la formacion seleccionada
     """
@@ -159,7 +160,7 @@ def pedir_formacion(equipo: str, equipos: dict) -> list | str | None:
         if formacion_seleccionada == ENTRADA_SALIR:
             return SALIR
         formacion_seleccionada = manejo_de_alineaciones.procesar_formacion(formacion_seleccionada)
-        if formacion_seleccionada == "pedir de nuevo":
+        if formacion_seleccionada == PEDIR_DE_NUEVO:
             continue
         if validaciones.verificar_cant_jugadores(equipo, equipos, formacion_seleccionada):
             return formacion_seleccionada
@@ -170,13 +171,14 @@ def pedir_jugadores_alineacion(
     formacion_seleccionada: list, posicion: str, lista_filtrada: list
 ) -> list | str | None:
     """Pide al usuario que ingrese una cantidad de jugadores de una lista numerada.
-    - Los jugadores deben estar separados por guiones y estos deben ser cuantos se
-    hayan especificado en la formacion seleccionada (a excepcion del arquero, suplentes
-    y el capitan que son siempre 1, 5 y 1)
-    - Si la entrada es "**" devuelve "salir" y vuelve al menu principal
+    - Los jugadores deben estar separados por guiones.
+    - Los jugadores deben ser cuantos se hayan especificado en la formacion seleccionada
+    (a excepcion del arquero, suplentes y el capitan que son siempre 1, 5 y 1), sus cantidades
+    se definen en el diccionario cantidades.
+    - Si la entrada es ENTRADA_SALIR devuelve SALIR y vuelve al menu principal
     - Si la entrada no es un numero imprime ERROR_INPUT_INVALIDO y devuelve None
-    - Si la entrada es menor a 1 o mayor a la cantidad de jugadores en la lista filtrada
-    imprime ERROR_SELECCION_INVALIDA y devuelve None
+    - Si la entrada es menor a 1 o mayor a len(lista_filtrada) imprime 
+    ERROR_SELECCION_INVALIDA y devuelve None
     - Si la entrada es valida:
         - Si es de seleccion multiple la procesa y se devuelve jugadores_seleccionados
         - Si es de seleccion indivual se asigna y devuelve jugadores_seleccionados

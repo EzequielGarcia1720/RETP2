@@ -1,6 +1,7 @@
 from constantes import (
     ERROR_EQUIPO_EXISTENTE,
     ERROR_FORMATO_NOMBRE,
+    INPUT_NOMBRE_EQUIPO,
     MSG_EQUIPO_CREADO,
     MSG_ALINEACION_GUARDADA,
     MSG_NO_INFORMACION,
@@ -17,12 +18,12 @@ import logica_de_negocio
 def crear_equipos(equipos: dict, presupuesto: int):
     """Funcion que permite al usuario crear su equipo.
     Se le pide al usuario que ingrese el nombre de su equipo
-    - Si el nombre no cumple el formato imprime ERROR_FORMATO_NOMBRE
     - Si el nombre ya existe imprime ERROR_EQUIPO_EXISTENTE
+    - Si el nombre no cumple el formato imprime ERROR_FORMATO_NOMBRE
     """
 
     while True:
-        nombre_equipo = input("Ingrese el nombre de su equipo: ")
+        nombre_equipo = input(INPUT_NOMBRE_EQUIPO)
         if nombre_equipo == ENTRADA_SALIR:
             break
         if validaciones.existe_equipo(nombre_equipo, equipos):
@@ -61,6 +62,7 @@ def crear_equipos(equipos: dict, presupuesto: int):
 def comprar_jugadores(equipos: dict, dataset: list):
     """
     Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
+    - Si alguna de las funciones a ejecutar devuelve SALIR se vuelve al menu principal
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
@@ -100,7 +102,9 @@ def comprar_jugadores(equipos: dict, dataset: list):
 
 def vender_jugador(equipos: dict):
     """Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
-    del menu de vender jugador."""
+    del menu de vender jugador.
+    - Si alguna de las funciones devuelve SALIR se vuelve al menu principal
+    """
     equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
     if not equipo_seleccionado or equipo_seleccionado == SALIR:
         return
@@ -123,19 +127,20 @@ def vender_jugador(equipos: dict):
 def ver_plantel(equipos: dict):
     """Esta funcion se va a encargar del flujo de ejecucion de las funciones principales
     del menu de ver plantel. Permite ver el plantel de jugadores del equipo seleccionado.
+    - Devuelve al menu principal si alguna de las funciones devuelve SALIR
     """
     equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-    if not equipo_seleccionado or equipo_seleccionado == SALIR:
+    if equipo_seleccionado == SALIR:
         return
     salida_de_usuario.mostrar_plantel(equipo_seleccionado, equipos)
 
 def armar_alineacion(equipos: dict):
     """Esta funcion permite crear una alineación de jugadores.
-    - Si alguna de las funciones devuelve la constante SALIR se vuelve al menú principal.
+    - Si alguna de las funciones devuelve SALIR o None se vuelve al menú principal.
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-        if not equipo_seleccionado or equipo_seleccionado == SALIR:
+        if equipo_seleccionado == SALIR:
             break
         formacion_seleccionada = entrada_de_usuario.pedir_formacion(
                     equipo_seleccionado, equipos
@@ -147,7 +152,7 @@ def armar_alineacion(equipos: dict):
             equipo_seleccionado,
             formacion_seleccionada,
         )
-        if not alineacion_seleccionada or alineacion_seleccionada == SALIR:
+        if alineacion_seleccionada == SALIR:
             break
         print(
             MSG_ALINEACION_GUARDADA.format(
@@ -159,14 +164,14 @@ def armar_alineacion(equipos: dict):
 
 def ver_alineacion(equipos: dict):
     """Esta funcion imprime la alineación de jugadores del equipo seleccionado.
-    - Si alguna de las funciones devuelve la constante SALIR se vuelve al menú principal.
+    - Si alguna de las funciones devuelve SALIR se vuelve al menú principal.
     """
     while True:
         equipo_seleccionado = salida_de_usuario.mostrar_equipos(equipos)
-        if not equipo_seleccionado or equipo_seleccionado == SALIR:
+        if equipo_seleccionado == SALIR:
             break
         mensaje = salida_de_usuario.mostrar_alineacion(equipo_seleccionado, equipos)
-        if not mensaje or mensaje == SALIR:
+        if mensaje == SALIR:
             break
         print(mensaje)
         break
@@ -174,7 +179,7 @@ def ver_alineacion(equipos: dict):
 def ver_jugador_mas_utilizado(equipos: dict):
     """Recibe el diccionario de equipos e imprime los jugadores más utilizados.
     - Si no hay equipos o conteo de jugadores, imprime MSG_NO_INFORMACION
-    - Si no hay al menos dos alineaciones definidas imprime MSG_NO_INFORMACION
+    - Si no hay al menos una alineacion definida imprime MSG_NO_INFORMACION
     """
     conteo = logica_de_negocio.contar_jugadores(equipos)
     if not equipos or not conteo:
