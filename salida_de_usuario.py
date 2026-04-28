@@ -1,5 +1,7 @@
 # Comprar jugadores
 from constantes import (
+    ALINEACION_ARQUERO,
+    ALINEACION_CAPITAN,
     ERROR_SIN_EQUIPOS,
     HEADER_ARQUERO,
     HEADER_DEFENSORES,
@@ -9,9 +11,19 @@ from constantes import (
     HEADER_MEDIOCAMPISTAS,
     HEADER_SUPLENTES,
     HEADER_TITULARES,
+    LISTA_ALINEACION_DEFENSORES,
+    LISTA_ALINEACION_DELANTEROS,
+    LISTA_ALINEACION_MEDIOCAMPISTAS,
+    LISTA_ALINEACION_SUPLENTES,
+    LISTA_PLANTEL_ARQUERO,
+    LISTA_PLANTEL_DEFENSOR,
+    LISTA_PLANTEL_DELANTERO,
+    LISTA_PLANTEL_MEDIOCAMPISTA,
     MSG_ALINEACION_INEXISTENTE,
     MSG_COMPRA_EXITOSA,
     MSG_PLANTEL_VACIO,
+    ROL_CAPITAN,
+    ROL_SUPLENTE,
     SALIR,
     TEMPLATE_ALINEACION,
     TEMPLATE_EQUIPO,
@@ -214,7 +226,7 @@ def imprimir_lista_jugadores(header: str, lista_filtrada: list):
     print(mensaje)
 
 
-def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
+def mostrar_jugadores_alineacion(equipos: dict, equipo: str, formacion_seleccionada: list):
     """Muestra la lista de jugadores segun la posicion y llama a la funcion pedir_jugadores
     para que el usuario ingrese los indices de los jugadores de la lista que desea agregar a
     la alineacion en esa posicion.
@@ -223,24 +235,24 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
     Una vez ingresados todos los jugadores devuelve alineacion
     """
 
-    # (Posicion en la tupla del jugador, el header a imprimir, la clave que irá en el diccionario)
+    # (Posicion en el diccionario del jugador, el header a imprimir, la clave que irá en el diccionario)
 
     alineacion = {}
 
     for posicion, header, clave_dict in [
-        ("Arquero", HEADER_ARQUERO, "Arquero"),
-        ("Defensor", HEADER_DEFENSORES, "Defensores"),
-        ("Mediocampista", HEADER_MEDIOCAMPISTAS, "Mediocampistas"),
-        ("Delantero", HEADER_DELANTEROS, "Delanteros"),
-        ("Suplente", HEADER_SUPLENTES, "Suplentes"),
-        ("Capitan", HEADER_TITULARES, "Capitan"),
+        (LISTA_PLANTEL_ARQUERO, HEADER_ARQUERO, ALINEACION_ARQUERO),
+        (LISTA_PLANTEL_DEFENSOR, HEADER_DEFENSORES, LISTA_ALINEACION_DEFENSORES),
+        (LISTA_PLANTEL_MEDIOCAMPISTA, HEADER_MEDIOCAMPISTAS, LISTA_ALINEACION_MEDIOCAMPISTAS),
+        (LISTA_PLANTEL_DELANTERO, HEADER_DELANTEROS, LISTA_ALINEACION_DELANTEROS),
+        (ROL_SUPLENTE, HEADER_SUPLENTES, LISTA_ALINEACION_SUPLENTES),
+        (ROL_CAPITAN, HEADER_TITULARES, ALINEACION_CAPITAN),
     ]:
         jugadores_ya_elegidos = manejo_de_alineaciones.obtener_jugadores_ya_elegidos(
             alineacion
         )
         plantel = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
         listas_filtradas = {
-            "Suplente": sorted(
+            ROL_SUPLENTE: sorted(
                 [
                     jugador
                     for jugador in plantel
@@ -248,7 +260,7 @@ def mostrar_jugadores(equipos: dict, equipo: str, formacion_seleccionada: list):
                 ],
                 key=lambda x: x["nombre"],
             ),
-            "Capitan": sorted(
+            ROL_CAPITAN: sorted(
                 [
                     jugador
                     for jugador in plantel

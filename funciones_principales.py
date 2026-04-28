@@ -142,7 +142,7 @@ def armar_alineacion(equipos: dict):
                 )
         if not formacion_seleccionada or formacion_seleccionada == SALIR:
             break
-        alineacion_seleccionada = salida_de_usuario.mostrar_jugadores(
+        alineacion_seleccionada = salida_de_usuario.mostrar_jugadores_alineacion(
             equipos,
             equipo_seleccionado,
             formacion_seleccionada,
