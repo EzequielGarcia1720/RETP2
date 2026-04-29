@@ -12,7 +12,7 @@ from constantes import (
 import validaciones
 import salida_de_usuario
 import entrada_de_usuario
-import logica_de_negocio
+import manejo_de_jugadores
 
 
 def crear_equipos(equipos: dict, presupuesto: int):
@@ -82,7 +82,7 @@ def comprar_jugadores(equipos: dict, dataset: list):
         )
         if not jugadores_seleccionados or jugadores_seleccionados == SALIR:
             break
-        jugadores_verificados = logica_de_negocio.verificar_presupuesto(
+        jugadores_verificados = manejo_de_jugadores.verificar_presupuesto(
             jugadores_seleccionados,
             equipo_seleccionado,
             equipos,
@@ -90,7 +90,7 @@ def comprar_jugadores(equipos: dict, dataset: list):
         if not jugadores_verificados or jugadores_verificados == SALIR:
             break
         if (
-            logica_de_negocio.efectuar_compra(
+            manejo_de_jugadores.efectuar_compra(
                 jugadores_verificados,
                 equipo_seleccionado,
                 equipos,
@@ -116,7 +116,7 @@ def vender_jugador(equipos: dict):
         return
 
     if (
-        logica_de_negocio.efectuar_venta(
+        manejo_de_jugadores.efectuar_venta(
             jugador_seleccionado, equipo_seleccionado, equipos
         )
         == SALIR
@@ -181,17 +181,17 @@ def ver_jugador_mas_utilizado(equipos: dict):
     - Si no hay equipos o conteo de jugadores, imprime MSG_NO_INFORMACION
     - Si no hay al menos una alineacion definida imprime MSG_NO_INFORMACION
     """
-    conteo = logica_de_negocio.contar_jugadores(equipos)
+    conteo = manejo_de_jugadores.contar_jugadores(equipos)
     if not equipos or not conteo:
         print(MSG_NO_INFORMACION)
         return
 
-    if not logica_de_negocio.verificar_alineaciones(equipos):
+    if not manejo_de_jugadores.verificar_alineaciones(equipos):
         print(MSG_NO_INFORMACION)
         return
 
     arquero_max, defensor_max, mediocampista_max, delantero_max = (
-        logica_de_negocio.buscar_maximos(conteo)
+        manejo_de_jugadores.buscar_maximos(conteo)
     )
     arquero_max = arquero_max[0]
     defensor_max = defensor_max[0]

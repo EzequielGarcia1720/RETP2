@@ -27,13 +27,13 @@ def procesar_dataset(dataset)-> dict:
         dataset_procesado[posicion].append(jugador)
     return dataset_procesado
 
-equipos = {}
 def main(datos_jugadores: list, presupuesto_inicial: int):
     """Funcion que despliega el menu principal y llama a las funciones
     correspondientes a cada opcion. Si el usuario ingresa una opcion invalida, se
     le muestra un mensaje de error y se vuelve a desplegar el menu. Si el usuario
     ingresa la opcion de salir, se muestra un mensaje de salida y se termina el programa.
     """
+    equipos = {}
     dataset = procesar_dataset(datos_jugadores)
     presupuesto = presupuesto_inicial
     menu_principal =(

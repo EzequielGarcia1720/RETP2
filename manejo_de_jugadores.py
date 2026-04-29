@@ -1,5 +1,9 @@
 from constantes import (
+    ARQUERO,
+    DEFENSOR,
+    DELANTERO,
     ERROR_PRESUPUESTO_INSUFICIENTE,
+    MEDIOCAMPISTA,
     MSG_VENTA_EXITOSA,
     MSG_ALINEACION_DESARMADA,
     SALIR,
@@ -29,13 +33,14 @@ def efectuar_compra(
 ):
     """Efectua la compra de los jugadores seleccionados para el equipo seleccionado
     Recibe:
-        - Una lista con los jugadores seleccionados
-        - El equipo seleccionado
+        - Una lista con los jugadores_seleccionados
+        - El equipo_seleccionado
         - El diccionario de equipos
     POSTCONDICIONES:
-        Imprime MSG_COMPRA_EXITOS para cada jugador comprado
-        Resta el precio del jugador al presupuesto del equipo seleccionado
-        Appendea o agrega el jugador a la lista "plantel" del diccionario del equipo seleccionado
+        - Imprime MSG_COMPRA_EXITOS para cada jugador comprado
+        - Resta el precio del jugador al presupuesto del equipo seleccionado
+        - Appendea o agrega el jugador a la lista de posicion correspondiente 
+        en el diccionario "plantel" del diccionario del equipo seleccionado
     """
     jugadores_seleccionados = sorted(jugadores_seleccionados)
     for jugador in jugadores_seleccionados:
@@ -54,7 +59,11 @@ def efectuar_compra(
 # ---------------- venta de jugador --------------------------------------------
 def efectuar_venta(jugador_a_vender: tuple, equipo: str, equipos: dict):
     """Efectua la venta del jugador seleccionado, actualizando el presupuesto
-    del equipo y el plantel."""
+    del equipo y el plantel.
+    Ademas imprime MSG_VENTA_EXITOSA y en caso de que el jugador vendido
+    perteneciera a la alineacion del equipo, desarma la alineacion e imprime
+    MSG_ALINEACION_DESARMADA.
+    """
     posicion = jugador_a_vender['posicion']
     nombre_jugador = jugador_a_vender['nombre']
     equipos[equipo]["plantel"][posicion].pop(nombre_jugador)
@@ -99,12 +108,12 @@ def buscar_maximos(conteo: dict)-> list:
     """Recibe el diccionario con el conteo de los jugadores y busca el maximo,
     devuelve una lista de tuplas, siendo cada una el jugador con el maximo de 
     apariciones de cada posicion"""
-    posiciones = ["Arquero", "Defensor", "Mediocampista", "Delantero"]
+    posiciones = [ARQUERO, DEFENSOR, MEDIOCAMPISTA, DELANTERO]
     jugadores_con_mas_apariciones = {
-        "Arquero": None,
-        "Defensor": None,
-        "Mediocampista": None,
-        "Delantero": None,
+        ARQUERO: None,
+        DEFENSOR: None,
+        MEDIOCAMPISTA: None,
+        DELANTERO: None,
     }
     for posicion in posiciones:
         jugadores_de_posicion = list(
@@ -117,8 +126,8 @@ def buscar_maximos(conteo: dict)-> list:
 
 def verificar_alineaciones(equipos: dict)-> bool:
     """Recibe el diccionario de equipos.
-    - Devuelve True si hay al menos dos alineaciones definidas
-    - Devuelve False si hay menos de dos alineaciones definidas
+    - Devuelve True si hay al menos una alineacion definida
+    - Devuelve False si hay menos de una alineacion definida
     """
     contador = 0
     for equipo in equipos.values():

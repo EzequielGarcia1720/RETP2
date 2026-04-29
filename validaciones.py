@@ -1,20 +1,20 @@
 # funciones de crear equipo
 from constantes import (
-    ALINEACION_ARQUERO,
-    ALINEACION_CAPITAN,
     ERROR_JUGADOR_EXISTENTE,
-    LISTA_ALINEACION_DEFENSORES,
-    LISTA_ALINEACION_DELANTEROS,
-    LISTA_ALINEACION_MEDIOCAMPISTAS,
-    LISTA_ALINEACION_SUPLENTES,
-    LISTA_ALINEACION_TITULARES,
-    LISTA_PLANTEL_ARQUERO,
-    LISTA_PLANTEL_DEFENSOR,
-    LISTA_PLANTEL_DELANTERO,
-    LISTA_PLANTEL_MEDIOCAMPISTA,
+    ITEM_LISTA_ALINEACION_CAPITAN,
+    ITEM_LISTA_ALINEACION_ARQUERO,
+    ITEM_LISTA_ALINEACION_DEFENSORES,
+    ITEM_LISTA_ALINEACION_DELANTEROS,
+    ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
+    ITEM_LISTA_ALINEACION_SUPLENTES,
+    ITEM_LISTA_ALINEACION_TITULARES,
     MSG_CANTIDAD_JUGADORES_INSUFICIENTE,
     LARGO_MAX_NOMBRE_EQUIPO,
     MINIMO_JUGADORES_EN_PLANTEL,
+    POSICION_ARQUERO,
+    POSICION_DEFENSOR,
+    POSICION_DELANTERO,
+    POSICION_MEDIOCAMPISTA,
 )
 import manejo_de_equipos
 
@@ -95,10 +95,10 @@ def tiene_jugadores(equipo: str, equipos: dict) -> bool:
     - Devuelve False si el equipo no tiene jugadores
     """
     posiciones = [
-        LISTA_PLANTEL_ARQUERO,
-        LISTA_PLANTEL_DEFENSOR,
-        LISTA_PLANTEL_MEDIOCAMPISTA,
-        LISTA_PLANTEL_DELANTERO,
+        POSICION_ARQUERO,
+        POSICION_DEFENSOR,
+        POSICION_MEDIOCAMPISTA,
+        POSICION_DELANTERO,
     ]
     return any(len(equipos[equipo]["plantel"][posicion]) > 0 for posicion in posiciones)
 
@@ -111,7 +111,7 @@ def es_suplente(jugador: tuple, equipo: str, equipos: dict) -> bool:
     alineacion = equipos[equipo].get("alineacion")
     if not alineacion:
         return False
-    return jugador in alineacion.get(LISTA_ALINEACION_SUPLENTES, [])
+    return jugador in alineacion.get(ITEM_LISTA_ALINEACION_SUPLENTES, [])
 
 
 def es_titular(jugador: tuple, equipo: str, equipos: dict) -> bool:
@@ -122,7 +122,7 @@ def es_titular(jugador: tuple, equipo: str, equipos: dict) -> bool:
     alineacion = equipos[equipo].get("alineacion")
     if not alineacion:
         return False
-    return jugador in alineacion.get(LISTA_ALINEACION_TITULARES, [])
+    return jugador in alineacion.get(ITEM_LISTA_ALINEACION_TITULARES, [])
 
 
 def esta_en_alineacion(equipo: str, equipos: dict, jugador: tuple) -> bool:
@@ -136,17 +136,17 @@ def esta_en_alineacion(equipo: str, equipos: dict, jugador: tuple) -> bool:
 
     # No agrego al arquero porque en el diccionario es una tupla, no una lista de tuplas
     posiciones = {
-        LISTA_PLANTEL_DEFENSOR: LISTA_ALINEACION_DEFENSORES,
-        LISTA_PLANTEL_MEDIOCAMPISTA: LISTA_ALINEACION_MEDIOCAMPISTAS,
-        LISTA_PLANTEL_DELANTERO: LISTA_ALINEACION_DELANTEROS,
+        POSICION_DEFENSOR: ITEM_LISTA_ALINEACION_DEFENSORES,
+        POSICION_MEDIOCAMPISTA: ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
+        POSICION_DELANTERO: ITEM_LISTA_ALINEACION_DELANTEROS,
     }
 
     posicion = posiciones.get(jugador["posicion"])
     if posicion and jugador in alineacion.get(posicion, []):
         return True
 
-    return jugador == alineacion.get(ALINEACION_ARQUERO) or jugador in alineacion.get(
-        LISTA_ALINEACION_SUPLENTES, []
+    return jugador == alineacion.get(ITEM_LISTA_ALINEACION_ARQUERO) or jugador in alineacion.get(
+        ITEM_LISTA_ALINEACION_SUPLENTES, []
     )
 
 
@@ -166,10 +166,10 @@ def verificar_cant_jugadores(
     if len(plantel) < MINIMO_JUGADORES_EN_PLANTEL:
         print(MSG_CANTIDAD_JUGADORES_INSUFICIENTE)
         return False
-    arqueros = len(equipos[equipo]["plantel"][LISTA_PLANTEL_ARQUERO])
-    defensores = len(equipos[equipo]["plantel"][LISTA_PLANTEL_DEFENSOR])
-    mediocampistas = len(equipos[equipo]["plantel"][LISTA_PLANTEL_MEDIOCAMPISTA])
-    delanteros = len(equipos[equipo]["plantel"][LISTA_PLANTEL_DELANTERO])
+    arqueros = len(equipos[equipo]["plantel"][POSICION_ARQUERO])
+    defensores = len(equipos[equipo]["plantel"][POSICION_DEFENSOR])
+    mediocampistas = len(equipos[equipo]["plantel"][POSICION_MEDIOCAMPISTA])
+    delanteros = len(equipos[equipo]["plantel"][POSICION_DELANTERO])
     if (
         arqueros < 1
         or defensores < int(formacion_seleccionada[0])
@@ -186,11 +186,11 @@ def alineacion_inexistente(equipos: dict, equipo: str) -> bool:
     Devuelve True si el equipo no tiene alineacion y False si tiene alineacion."""
     alineacion = equipos[equipo].get("alineacion")
     campos = [
-        alineacion.get(ALINEACION_ARQUERO),
-        alineacion.get(ALINEACION_CAPITAN),
-        alineacion.get(LISTA_ALINEACION_DEFENSORES),
-        alineacion.get(LISTA_ALINEACION_MEDIOCAMPISTAS),
-        alineacion.get(LISTA_ALINEACION_DELANTEROS),
-        alineacion.get(LISTA_ALINEACION_SUPLENTES),
+        alineacion.get(ITEM_LISTA_ALINEACION_ARQUERO),
+        alineacion.get(ITEM_LISTA_ALINEACION_CAPITAN),
+        alineacion.get(ITEM_LISTA_ALINEACION_DEFENSORES),
+        alineacion.get(ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS),
+        alineacion.get(ITEM_LISTA_ALINEACION_DELANTEROS),
+        alineacion.get(ITEM_LISTA_ALINEACION_SUPLENTES),
     ]
     return not any(campos)
