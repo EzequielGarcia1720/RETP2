@@ -1,7 +1,5 @@
 # Comprar jugadores
 from constantes import (
-    ITEM_LISTA_ALINEACION_ARQUERO,
-    ITEM_LISTA_ALINEACION_CAPITAN,
     ERROR_SIN_EQUIPOS,
     HEADER_ARQUERO,
     HEADER_DEFENSORES,
@@ -11,17 +9,23 @@ from constantes import (
     HEADER_MEDIOCAMPISTAS,
     HEADER_SUPLENTES,
     HEADER_TITULARES,
+    ITEM_LISTA_ALINEACION_ARQUERO,
+    ITEM_LISTA_ALINEACION_CAPITAN,
     ITEM_LISTA_ALINEACION_DEFENSORES,
     ITEM_LISTA_ALINEACION_DELANTEROS,
     ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
     ITEM_LISTA_ALINEACION_SUPLENTES,
+    INPUT_EQUIPO,
+    INPUT_OPCIONES_POSICIONES,
+    INPUT_POSICIONES,
+    JUGADORES_POR_PAGINA,
+    MSG_ALINEACION_INEXISTENTE,
+    MSG_COMPRA_EXITOSA,
+    MSG_PLANTEL_VACIO,
     POSICION_ARQUERO,
     POSICION_DEFENSOR,
     POSICION_DELANTERO,
     POSICION_MEDIOCAMPISTA,
-    MSG_ALINEACION_INEXISTENTE,
-    MSG_COMPRA_EXITOSA,
-    MSG_PLANTEL_VACIO,
     ROL_CAPITAN,
     ROL_SUPLENTE,
     SALIR,
@@ -33,9 +37,6 @@ from constantes import (
     TEMPLATE_JUGADOR_PRECIO,
     TEMPLATE_PLANTEL,
     TEMPLATE_PRESUPUESTO,
-    INPUT_EQUIPO,
-    INPUT_POSICIONES,
-    JUGADORES_POR_PAGINA,
 )
 import entrada_de_usuario
 import validaciones
@@ -59,8 +60,8 @@ def mostrar_equipos(equipos: dict) -> str:
     for indice, opcion in enumerate(opciones, start=1):
         mensaje += "\n" + TEMPLATE_EQUIPO.format(n=indice, nombre_equipo=opcion)
     print(mensaje)
-    equipo_seleccionado = entrada_de_usuario.pedir_entero(INPUT_EQUIPO, 1, maximo)
-    if equipo_seleccionado is None:
+    equipo_seleccionado = entrada_de_usuario.pedir_entero(INPUT_EQUIPO, INPUT_EQUIPO, 1, maximo)
+    if equipo_seleccionado == SALIR:
         return SALIR
     return opciones[int(equipo_seleccionado) - 1]
 
@@ -76,9 +77,9 @@ def mostrar_posiciones(nombre_equipo: str, equipos: dict) -> str:
         TEMPLATE_PRESUPUESTO.format(presupuesto=equipos[nombre_equipo]["presupuesto"])
     )
     posicion_seleccionada = entrada_de_usuario.pedir_entero(
-        INPUT_POSICIONES, 1, len(posiciones)
+        INPUT_OPCIONES_POSICIONES, INPUT_POSICIONES, 1, len(posiciones)
     )
-    if posicion_seleccionada is None:
+    if posicion_seleccionada == SALIR:
         return SALIR
     return posiciones[int(posicion_seleccionada) - 1]
 

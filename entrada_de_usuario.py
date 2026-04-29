@@ -22,7 +22,11 @@ import validacion_de_entrada
 import validaciones
 import manejo_de_alineaciones
 
-def pedir_entero(mensaje_input: str, minimo: int, maximo: int) -> int:
+def leer_opcion(mensaje_input: str) -> str:
+    entrada_de_usuario = input(mensaje_input)
+    return SALIR if entrada_de_usuario == ENTRADA_SALIR else entrada_de_usuario
+
+def pedir_entero(mensaje_inicial_input: str, mensaje_input: str ,minimo: int, maximo: int) -> int:
     """Solicita un numero entero al usuario y lo valida.
     Recibe un mensaje que se imprime en el primer input y dos valores enteros,
     el maximo y el minimo de valores que puede tomar el input como validos.
@@ -31,24 +35,21 @@ def pedir_entero(mensaje_input: str, minimo: int, maximo: int) -> int:
     - En caso de ser valido devuelve el numero entero ingresado
     - En caso de ingresar ENTRADA_SALIR devuelve None y vuelve al menu principal
     """
-    opcion_seleccionada = input(mensaje_input)
+    opcion_seleccionada = input(mensaje_inicial_input)
     if opcion_seleccionada == ENTRADA_SALIR:
-        return None
+        return SALIR
 
     while True:
         if not opcion_seleccionada.isdigit():
             print(ERROR_INPUT_INVALIDO)
-            opcion_seleccionada = input(INPUT_OPCION)
-            if opcion_seleccionada == ENTRADA_SALIR:
-                return None
-            continue
-        if int(opcion_seleccionada) < minimo or int(opcion_seleccionada) > maximo:
+        elif int(opcion_seleccionada) < minimo or int(opcion_seleccionada) > maximo:
             print(ERROR_SELECCION_INVALIDA)
-            opcion_seleccionada = input(INPUT_OPCION)
-            if opcion_seleccionada == ENTRADA_SALIR:
-                return None
-            continue
-        return int(opcion_seleccionada)
+        else:
+            return int(opcion_seleccionada)
+
+        opcion_seleccionada = leer_opcion(mensaje_input)
+        if opcion_seleccionada == SALIR:
+            return SALIR
 
 
 def pedir_jugadores(

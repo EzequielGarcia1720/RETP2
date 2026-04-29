@@ -97,7 +97,9 @@ INPUT_COMPRA = "> : Siguiente página\n< : Página anterior\nSeleccione una opci
 INPUT_VENTA = "Seleccione el jugador a vender: "
 INPUT_JUGADORES_ALINEACION = "Seleccione {cantidad} jugador(es): "
 INPUT_CAPITAN_ALINEACION = "Seleccione un capitán: "
-INPUT_POSICIONES = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. Delantero\nSeleccione una opcion: "
+INPUT_OPCIONES_POSICIONES = "Posiciones:\n1. Arquero\n2. Defensor\n3. Mediocampista\n4. Delantero\nSeleccione una opcion: "
+INPUT_POSICIONES = "Seleccione una posición: "
+
 
 # ---- Constantes crear_equipo ----
 LARGO_MAX_NOMBRE_EQUIPO = 50
