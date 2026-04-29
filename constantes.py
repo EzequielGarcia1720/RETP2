@@ -114,7 +114,6 @@ POSICION_DELANTERO = "Delantero"
 ROL_SUPLENTE = "Suplente"
 ROL_TITULAR = "Titular"
 ROL_RESERVA = "Reserva"
-
 ROL_CAPITAN = "Capitan"
 
 

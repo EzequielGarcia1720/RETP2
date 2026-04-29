@@ -1,9 +1,9 @@
 from constantes import (
-    ARQUERO,
-    DEFENSOR,
-    DELANTERO,
+    POSICION_ARQUERO,
+    POSICION_DEFENSOR,
+    POSICION_DELANTERO,
+    POSICION_MEDIOCAMPISTA,
     ERROR_PRESUPUESTO_INSUFICIENTE,
-    MEDIOCAMPISTA,
     MSG_VENTA_EXITOSA,
     MSG_ALINEACION_DESARMADA,
     SALIR,
@@ -108,12 +108,12 @@ def buscar_maximos(conteo: dict)-> list:
     """Recibe el diccionario con el conteo de los jugadores y busca el maximo,
     devuelve una lista de tuplas, siendo cada una el jugador con el maximo de 
     apariciones de cada posicion"""
-    posiciones = [ARQUERO, DEFENSOR, MEDIOCAMPISTA, DELANTERO]
+    posiciones = [POSICION_ARQUERO, POSICION_DEFENSOR, POSICION_MEDIOCAMPISTA, POSICION_DELANTERO]
     jugadores_con_mas_apariciones = {
-        ARQUERO: None,
-        DEFENSOR: None,
-        MEDIOCAMPISTA: None,
-        DELANTERO: None,
+        POSICION_ARQUERO: None,
+        POSICION_DEFENSOR: None,
+        POSICION_MEDIOCAMPISTA: None,
+        POSICION_DELANTERO: None,
     }
     for posicion in posiciones:
         jugadores_de_posicion = list(

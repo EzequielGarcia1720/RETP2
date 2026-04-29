@@ -2,10 +2,10 @@ from constantes import (
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
     JUGADORES_POR_PAGINA,
-    ARQUERO,
-    DEFENSOR,
-    DELANTERO,
-    MEDIOCAMPISTA,
+    POSICION_ARQUERO,
+    POSICION_DEFENSOR,
+    POSICION_DELANTERO,
+    POSICION_MEDIOCAMPISTA,
     PEDIR_DE_NUEVO,
     ROL_CAPITAN,
     ROL_SUPLENTE,
@@ -185,12 +185,12 @@ def pedir_jugadores_alineacion(
     """
 
     cantidades = {
-        ARQUERO: 1,
+        POSICION_ARQUERO: 1,
         ROL_SUPLENTE: 5,
         ROL_CAPITAN: 1,
-        DEFENSOR: formacion_seleccionada[0],
-        MEDIOCAMPISTA: formacion_seleccionada[1],
-        DELANTERO: formacion_seleccionada[2],
+        POSICION_DEFENSOR: formacion_seleccionada[0],
+        POSICION_MEDIOCAMPISTA: formacion_seleccionada[1],
+        POSICION_DELANTERO: formacion_seleccionada[2],
     }
 
     cantidad = cantidades.get(posicion)
@@ -203,7 +203,7 @@ def pedir_jugadores_alineacion(
 
     jugadores_seleccionados = None
 
-    if posicion in [ARQUERO, ROL_CAPITAN]:
+    if posicion in [POSICION_ARQUERO, ROL_CAPITAN]:
         if entrada_del_usuario.lstrip("-").isdigit():
             indice = int(entrada_del_usuario) - 1
             if 0 <= indice < len(lista_filtrada):
