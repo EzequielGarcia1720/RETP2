@@ -14,6 +14,7 @@ def identificar_entrada(
 
     es_individual = entrada_del_usuario.lstrip("-").isdigit()
     es_multiple = "-" in entrada_del_usuario
+    jugadores_seleccionados = None
 
     if es_individual:
         jugadores_seleccionados = [entrada_del_usuario]
@@ -25,6 +26,7 @@ def identificar_entrada(
             return None
     else:
         print(sel_inv_err_msg)
+        return None
 
     if jugadores_seleccionados is None:
         return None
