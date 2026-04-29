@@ -14,9 +14,7 @@ ERROR_INPUT_INVALIDO = "Formato de entrada inválido"
 ERROR_SIN_EQUIPOS = "No existen equipos registrados"
 
 # ----- crear equipo -----
-MSG_EQUIPO_CREADO = (
-    "El equipo {nombre_equipo} ha sido creado exitosamente con un presupuesto de ${presupuesto}"
-)
+MSG_EQUIPO_CREADO = "El equipo {nombre_equipo} ha sido creado exitosamente con un presupuesto de ${presupuesto}"
 ERROR_EQUIPO_EXISTENTE = "Ya existe un equipo con ese nombre"
 ERROR_FORMATO_NOMBRE = "Formato de nombre de equipo inválido"
 
@@ -35,7 +33,9 @@ TEMPLATE_PLANTEL = """Equipo: {nombre_equipo}
 Presupuesto: ${presupuesto}
 Plantel:
 """
-TEMPLATE_JUGADOR_PLANTEL = "{n}. {nombre_jugador} ({posicion}) [{rol_actual}] - ${precio}"
+TEMPLATE_JUGADOR_PLANTEL = (
+    "{n}. {nombre_jugador} ({posicion}) [{rol_actual}] - ${precio}"
+)
 MSG_PLANTEL_VACIO = "El equipo no posee jugadores"
 MSG_VENTA_EXITOSA = (
     "El jugador {nombre_jugador} fue vendido exitosamente. "
@@ -47,7 +47,9 @@ MSG_ALINEACION_DESARMADA = "Atención: La alineación del equipo ha sido desarma
 # usa las mismas que vender jugador
 
 # ----- armar alineación -----
-MSG_ALINEACION_GUARDADA = "La nueva alineación del equipo {nombre_equipo} fue guardada exitosamente"
+MSG_ALINEACION_GUARDADA = (
+    "La nueva alineación del equipo {nombre_equipo} fue guardada exitosamente"
+)
 HEADER_ARQUERO = "> ARQUERO:"
 HEADER_DEFENSORES = "> DEFENSORES:"
 HEADER_MEDIOCAMPISTAS = "> MEDIOCAMPISTAS:"
@@ -91,8 +93,8 @@ ENTRADA_SALIR = "**"
 # ----- Constantes de Inputs ------
 INPUT_OPCION = "Seleccione una opción: "
 INPUT_NOMBRE_EQUIPO = "Ingrese el nombre de su equipo: "
-INPUT_EQUIPO = 'Seleccione un equipo: '
-INPUT_FORMACION = 'Ingrese una formación: '
+INPUT_EQUIPO = "Seleccione un equipo: "
+INPUT_FORMACION = "Ingrese una formación: "
 INPUT_COMPRA = "> : Siguiente página\n< : Página anterior\nSeleccione una opcion: "
 INPUT_VENTA = "Seleccione el jugador a vender: "
 INPUT_JUGADORES_ALINEACION = "Seleccione {cantidad} jugador(es): "
@@ -119,8 +121,8 @@ ROL_RESERVA = "Reserva"
 ROL_CAPITAN = "Capitan"
 
 
-
 # ---- Constantes armar_alineacion ----
+CANTIDAD_VALORES_FORMACION = 3
 MINIMO_JUGADORES_EN_PLANTEL = 16
 MINIMO_JUGADORES_EN_FORMACION = 10
 ITEM_LISTA_ALINEACION_SUPLENTES = "Suplentes"

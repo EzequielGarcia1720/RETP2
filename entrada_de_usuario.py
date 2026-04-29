@@ -23,6 +23,10 @@ import validaciones
 import manejo_de_alineaciones
 
 def leer_opcion(mensaje_input: str) -> str:
+    """
+    Recibe mensaje_input y pide entrada, si entrada_de_usuario == ENTRADA_SALIR
+    devuelve SALIR, sino devuelve entrada_de_usuario
+    """
     entrada_de_usuario = input(mensaje_input)
     return SALIR if entrada_de_usuario == ENTRADA_SALIR else entrada_de_usuario
 
@@ -138,12 +142,12 @@ def pedir_entrada(plantel_ordenado)-> str | None:
         return SALIR
     if not entrada_del_usuario.isdigit():
         print(ERROR_INPUT_INVALIDO)
-        return None
+        return PEDIR_DE_NUEVO
     if int(entrada_del_usuario) < 1 or int(entrada_del_usuario) > len(
         plantel_ordenado
     ):
         print(ERROR_SELECCION_INVALIDA)
-        return None
+        return PEDIR_DE_NUEVO
     return entrada_del_usuario
 
 # Armar alineacion

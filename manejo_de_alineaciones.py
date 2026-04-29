@@ -1,4 +1,5 @@
 from constantes import (
+    CANTIDAD_VALORES_FORMACION,
     ERROR_CANTIDAD_INVALIDA,
     ERROR_FORMACION_INVALIDA,
     ERROR_INPUT_INVALIDO,
@@ -16,16 +17,17 @@ from constantes import (
 import entrada_de_usuario
 
 
-def procesar_formacion(formacion_seleccionada: str)-> str | list:
+def procesar_formacion(formacion_seleccionada: str) -> str | list:
     """Recibe la entrada del usuario, la "splitea" y devuelve la lista creada
-    - Si len(lista) es distinto a 3 retorna PEDIR_DE_NUEVO e imprime ERROR_FORMACION_INVALIDA
+    - Si len(lista) es distinto a CANTIDAD_VALORES_FORMACION devuelve PEDIR_DE_NUEVO
+    e imprime ERROR_FORMACION_INVALIDA
     - Si no cumple el formato devuelve PEDIR_DE_NUEVO e imprime ERROR_INPUT_INVALIDO
     """
     if formacion_seleccionada.strip() == "" or formacion_seleccionada.count("-") != 2:
         print(ERROR_INPUT_INVALIDO)
         return PEDIR_DE_NUEVO
     lista_formacion = formacion_seleccionada.split("-")
-    if len(lista_formacion) != 3:
+    if len(lista_formacion) != CANTIDAD_VALORES_FORMACION:
         print(ERROR_FORMACION_INVALIDA)
         return PEDIR_DE_NUEVO
     suma = 0
@@ -52,10 +54,10 @@ def procesar_multiples(
     2. Que todos sean numeros -> sino imprime ERROR_INPUT_INVALIDO y devuelve None
     3. Que la cantidad de jugadores seleccionados no sea distinta a cantidad_de_jugadores ->
     sino imprime ERROR_CANTIDAD_INVALIDA y devuelve None
-    4. Que los índices ingresados estén dentro del rango de la lista_filtrada 
+    4. Que los índices ingresados estén dentro del rango de la lista_filtrada
         -> sino imprime ERROR_SELECCION_INVALIDA y devuelve None
     De ser válida devuelve una lista con los diccionarios de los jugadores seleccionados.
-    
+
     """
     jugadores_seleccionados = entrada_del_usuario.split("-")
 
@@ -159,10 +161,18 @@ def adquirir_todas_las_posiciones(equipos, equipo):
     Devuelve una tupla de listas con los jugadores de cada posicion.
     """
     return (
-        adquirir_jugadores_por_posicion(equipos, equipo, ITEM_LISTA_ALINEACION_DEFENSORES),
-        adquirir_jugadores_por_posicion(equipos, equipo, ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS),
-        adquirir_jugadores_por_posicion(equipos, equipo, ITEM_LISTA_ALINEACION_DELANTEROS),
+        adquirir_jugadores_por_posicion(
+            equipos, equipo, ITEM_LISTA_ALINEACION_DEFENSORES
+        ),
+        adquirir_jugadores_por_posicion(
+            equipos, equipo, ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS
+        ),
+        adquirir_jugadores_por_posicion(
+            equipos, equipo, ITEM_LISTA_ALINEACION_DELANTEROS
+        ),
         adquirir_jugadores_por_posicion(equipos, equipo, ITEM_LISTA_ALINEACION_ARQUERO),
-        adquirir_jugadores_por_posicion(equipos, equipo, ITEM_LISTA_ALINEACION_SUPLENTES),
+        adquirir_jugadores_por_posicion(
+            equipos, equipo, ITEM_LISTA_ALINEACION_SUPLENTES
+        ),
         adquirir_jugadores_por_posicion(equipos, equipo, ITEM_LISTA_ALINEACION_CAPITAN),
     )

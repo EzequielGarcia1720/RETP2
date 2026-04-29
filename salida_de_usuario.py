@@ -18,10 +18,12 @@ from constantes import (
     INPUT_EQUIPO,
     INPUT_OPCIONES_POSICIONES,
     INPUT_POSICIONES,
+    ITEM_LISTA_ALINEACION_TITULARES,
     JUGADORES_POR_PAGINA,
     MSG_ALINEACION_INEXISTENTE,
     MSG_COMPRA_EXITOSA,
     MSG_PLANTEL_VACIO,
+    PEDIR_DE_NUEVO,
     POSICION_ARQUERO,
     POSICION_DEFENSOR,
     POSICION_DELANTERO,
@@ -47,8 +49,8 @@ import manejo_de_equipos
 def mostrar_equipos(equipos: dict) -> str:
     """Muestra los equipos disponibles para comprar jugadores y llama la
     funcion pedir_entero para que el usuario seleccione un equipo
-    - Si equipo seleccionado es None devuelve "salir"
-    - Si no hay equipos disponibles imprime ERROR_SIN_EQUIPOS y retorna "salir"
+    - Si equipo seleccionado es SALIR devuelve SALIR
+    - Si no hay equipos disponibles imprime ERROR_SIN_EQUIPOS y devuelve SALIR
     - Si equipo seleccionado es valido devuelve el nombre del equipo
     """
     if not equipos:
@@ -60,7 +62,9 @@ def mostrar_equipos(equipos: dict) -> str:
     for indice, opcion in enumerate(opciones, start=1):
         mensaje += "\n" + TEMPLATE_EQUIPO.format(n=indice, nombre_equipo=opcion)
     print(mensaje)
-    equipo_seleccionado = entrada_de_usuario.pedir_entero(INPUT_EQUIPO, INPUT_EQUIPO, 1, maximo)
+    equipo_seleccionado = entrada_de_usuario.pedir_entero(
+        INPUT_EQUIPO, INPUT_EQUIPO, 1, maximo
+    )
     if equipo_seleccionado == SALIR:
         return SALIR
     return opciones[int(equipo_seleccionado) - 1]
@@ -69,10 +73,15 @@ def mostrar_equipos(equipos: dict) -> str:
 def mostrar_posiciones(nombre_equipo: str, equipos: dict) -> str:
     """Muestra las posiciones disponibles para comprar jugadores y llama la
     funcion pedir_entero para que el usuario seleccione una posicion
-    - Si posicion seleccionada es None retorna "salir"
+    - Si posicion seleccionada es SALIR devuelve SALIR
     - Si la posicion seleccionada es valida devuelve la posicion
     """
-    posiciones = ["Arquero", "Defensor", "Mediocampista", "Delantero"]
+    posiciones = [
+        POSICION_ARQUERO,
+        POSICION_DEFENSOR,
+        POSICION_MEDIOCAMPISTA,
+        POSICION_DELANTERO,
+    ]
     print(
         TEMPLATE_PRESUPUESTO.format(presupuesto=equipos[nombre_equipo]["presupuesto"])
     )
@@ -88,10 +97,10 @@ def mostrar_jugadores_compra(
     posicion_seleccionada: str, nombre_equipo: str, dataset: dict, equipos: dict
 ) -> list:
     """Muestra los jugadores disponibles para comprar segun la posicion seleccionada
-    Ademas llama a la funcion pedir jugadores, si es "salir" retorna "salir" y vuelve al menu
+    Ademas llama a la funcion pedir jugadores, si es SALIR devuelve SALIR y vuelve al menu
     Si pedir_jugadores devuelve un entero cambia de pagina
     Si  pedir_jugadores devuelve None vuelve a empezar el while
-    Si jugadores_seleccionados es valido devuelve jugadores_seleccionados
+    Si jugadores_seleccionados es valido devuelve la lista de tuplas jugadores_seleccionados
     -"""
     jugadores_disponibles = dataset[posicion_seleccionada]
     pagina_actual = 0
@@ -127,7 +136,12 @@ def mostrar_jugadores_compra(
         return jugadores_seleccionados
 
 
-def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equipo):
+def imprimir_mensaje_compra(
+    nombre_jugador: str, equipo_seleccionado: str, presupuesto_equipo: int
+):
+    """
+    Imprime por pantalla el mensaje de compra exitosa.
+    """
     print(
         MSG_COMPRA_EXITOSA.format(
             nombre_jugador=nombre_jugador,
@@ -140,15 +154,15 @@ def imprimir_mensaje_compra(nombre_jugador, equipo_seleccionado, presupuesto_equ
 # Vender
 
 
-def mostrar_plantel_venta(equipo: str, equipos: dict) -> str | None | tuple:
+def mostrar_plantel_venta(equipo: str, equipos: dict) -> str | dict:
     """Funcion que muestra los jugadores del plantel y llama a la funcion pedir_entrada.
     Recibe el equipo seleccionado y el diccionario de equipos.
     - Si el equipo seleccionado no tiene jugadores vuelve al menu
     principal e imprime MSG_PLANTEL_VACIO
-    - Si pedir_entrada devuelve "salir" devuelve "salir" y vuelve al menu principal
+    - Si pedir_entrada devuelve SALIR devuelve SALIR y vuelve al menu principal
     - Si pedir_entrada devuelve None vuelve a empezar el while solicitando entrada
     nuevamente.
-    - Si la entrada es valida devuelve la tupla del jugador a vender.
+    - Si la entrada es valida devuelve el diccionario del jugador a vender.
 
     """
     if mostrar_plantel(equipo, equipos) == SALIR:
@@ -158,10 +172,9 @@ def mostrar_plantel_venta(equipo: str, equipos: dict) -> str | None | tuple:
         jugador_a_vender = entrada_de_usuario.pedir_entrada(plantel_ordenado)
         if jugador_a_vender == SALIR:
             return SALIR
-        if jugador_a_vender is None:
+        if jugador_a_vender == PEDIR_DE_NUEVO:
             continue
         jugador_a_vender = plantel_ordenado[int(jugador_a_vender) - 1]
-
         return jugador_a_vender
 
 
@@ -169,11 +182,9 @@ def mostrar_plantel(equipo: str, equipos: dict):
     """Recibe el nombre del equipo y el diccionario de equipos.
     Muestra los jugadores del plantel con su rol (titular, suplente, reserva)
     y su posicion (arquero, defensor, mediocampista, delantero).
-    - Si el equipo no tiene jugadores devuelve "salir" y vuelve al
+    - Si el equipo no tiene jugadores devuelve SALIR y vuelve al
     menu principal e imprime MSG_PLANTEL_VACIO
     - Si el equipo tiene jugadores devuelve True
-
-
     """
 
     mensaje = TEMPLATE_PLANTEL.format(
@@ -227,11 +238,13 @@ def imprimir_lista_jugadores(header: str, lista_filtrada: list):
     print(mensaje)
 
 
-def mostrar_jugadores_alineacion(equipos: dict, equipo: str, formacion_seleccionada: list):
+def mostrar_jugadores_alineacion(
+    equipos: dict, equipo: str, formacion_seleccionada: list
+):
     """Muestra la lista de jugadores segun la posicion y llama a la funcion pedir_jugadores
     para que el usuario ingrese los indices de los jugadores de la lista que desea agregar a
     la alineacion en esa posicion.
-    - Si jugadores_seleccionados es "salir" devuelve "salir" y vuelve al menu principal
+    - Si jugadores_seleccionados es SALIR devuelve SALIR y vuelve al menu principal
     - Si jugadores_seleccionados es valido se agregan los jugadores a la alineacion
     Una vez ingresados todos los jugadores devuelve alineacion
     """
@@ -266,7 +279,8 @@ def mostrar_jugadores_alineacion(equipos: dict, equipo: str, formacion_seleccion
                     jugador
                     for jugador in plantel
                     if jugador in jugadores_ya_elegidos
-                    and jugador not in alineacion.get("Suplentes", [])
+                    and jugador
+                    not in alineacion.get(ITEM_LISTA_ALINEACION_SUPLENTES, [])
                 ],
                 key=lambda x: x["nombre"],
             ),
@@ -284,26 +298,31 @@ def mostrar_jugadores_alineacion(equipos: dict, equipo: str, formacion_seleccion
             posicion, lista_filtrada, formacion_seleccionada
         )
 
-        if jugadores_seleccionados == "salir":
+        if jugadores_seleccionados == SALIR:
             return SALIR
 
         alineacion[clave_dict] = jugadores_seleccionados
 
     lista_titulares = []
 
-    for clave in ["Arquero", "Defensores", "Mediocampistas", "Delanteros"]:
+    for clave in [
+        ITEM_LISTA_ALINEACION_ARQUERO,
+        ITEM_LISTA_ALINEACION_DEFENSORES,
+        ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
+        ITEM_LISTA_ALINEACION_DELANTEROS,
+    ]:
         if isinstance(alineacion[clave], list):
             lista_titulares.extend(alineacion[clave])
         else:
             lista_titulares.append(alineacion[clave])
 
-    alineacion["Titulares"] = lista_titulares
+    alineacion[ITEM_LISTA_ALINEACION_TITULARES] = lista_titulares
     return alineacion
 
 
 def mostrar_alineacion(equipo: str, equipos: dict) -> str:
     """Crea el mensaje con la alineacion del equipo seleccionado.
-    - Si el equipo no tiene alineacion imprime MSG_ALINEACION_INEXISTENTE y devuelve "salir"
+    - Si el equipo no tiene alineacion imprime MSG_ALINEACION_INEXISTENTE y devuelve SALIR
     Devuelve el mensaje con la alineacion del equipo seleccionado
     """
     if validaciones.alineacion_inexistente(equipos, equipo):

@@ -19,10 +19,10 @@ from constantes import (
 import manejo_de_equipos
 
 
-def validar_formato_equipo(nombre_equipo):
+def validar_formato_equipo(nombre_equipo: str)-> bool:
     """Funcion que valida el nombre del equipo ingresado. El nombre no debe contener numeros,
-    caracteres especiales, exceder los 50 caracteres ni ser una cadena vacia. Si el nombre es
-    valido, se retorna True, de lo contrario se retorna False."""
+    caracteres especiales, exceder los LARGO_MAX_NOMBRE_EQUIPO caracteres ni ser una cadena vacia.
+    Si el nombre es valido, se retorna True, de lo contrario se retorna False."""
     if (
         len(nombre_equipo) > LARGO_MAX_NOMBRE_EQUIPO
         or len(nombre_equipo) == 0
@@ -36,7 +36,7 @@ def validar_formato_equipo(nombre_equipo):
     return True
 
 
-def existe_equipo(nombre_equipo, equipos):
+def existe_equipo(nombre_equipo: str, equipos: dict)-> bool:
     """Funcion que verifica si el equipo ya existe.
     Si el equipo existe, se retorna True, de lo contrario se retorna False."""
     return nombre_equipo in equipos
@@ -158,8 +158,10 @@ def verificar_cant_jugadores(
 ) -> bool:
     """Recibe el equipo seleccionado, el diccionario de equipos y la lista con la formacion
     seleccionada.
-    - Si la cantidad de jugadores en el plantel es menor a 16 devuelve False
-    - Si no hay jugadores suficientes para la formacion seleccionada devuelve False
+    - Si la cantidad de jugadores en el plantel es menor a MINIMO_JUGADORES_PLANTEL 
+    devuelve False e imprime MSG_CANTIDAD_JUGADORES_INSUFICIENTE
+    - Si no hay jugadores suficientes para la formacion seleccionada devuelve False e imprime 
+    MSG_CANTIDAD_JUGADORES_INSUFICIENTE
     - Sino devuelve True
     """
     plantel = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
