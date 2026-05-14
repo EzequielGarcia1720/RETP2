@@ -1,7 +1,13 @@
 from constantes import (
     ERROR_INPUT_INVALIDO,
     ERROR_SELECCION_INVALIDA,
+    ENTRADA_SALIR,
+    ENTRADA_PAGINA_SIGUIENTE,
+    ENTRADA_PAGINA_ANTERIOR,
     JUGADORES_POR_PAGINA,
+    NUMERO_DE_ARQUEROS,
+    NUMERO_DE_CAPITANES,
+    NUMERO_DE_SUPLENTES,
     POSICION_ARQUERO,
     POSICION_DEFENSOR,
     POSICION_DELANTERO,
@@ -20,7 +26,6 @@ from constantes import (
 )
 import validacion_de_entrada
 import validaciones
-import manejo_de_alineaciones
 
 def leer_opcion(mensaje_input: str) -> str:
     """
@@ -76,14 +81,17 @@ def pedir_jugadores(
     maximo = min(JUGADORES_POR_PAGINA, len(jugadores_disponibles) - pagina * JUGADORES_POR_PAGINA)
 
     entrada_del_usuario = input(INPUT_COMPRA)
-
+    class comandos(str):
+        PAGINA_SIGUIENTE = ENTRADA_PAGINA_SIGUIENTE
+        PAGINA_ANTERIOR = ENTRADA_PAGINA_ANTERIOR
+        SALIR = ENTRADA_SALIR
     while True:
         match entrada_del_usuario:
-            case "**":
+            case comandos.SALIR:
                 resultado_a_devolver = SALIR
                 break
 
-            case "<":
+            case comandos.PAGINA_ANTERIOR:
                 if pagina > 0:
                     resultado_a_devolver = pagina - 1
                     break
@@ -92,7 +100,7 @@ def pedir_jugadores(
                 entrada_del_usuario = input(INPUT_OPCION)
                 continue
 
-            case ">":
+            case comandos.PAGINA_SIGUIENTE:
                 if (pagina + 1) * JUGADORES_POR_PAGINA < len(jugadores_disponibles):
                     resultado_a_devolver = pagina + 1
                     break
@@ -164,7 +172,7 @@ def pedir_formacion(equipo: str, equipos: dict) -> list | str | None:
         formacion_seleccionada = input(INPUT_FORMACION)
         if formacion_seleccionada == ENTRADA_SALIR:
             return SALIR
-        formacion_seleccionada = manejo_de_alineaciones.procesar_formacion(formacion_seleccionada)
+        formacion_seleccionada = validacion_de_entrada.procesar_formacion(formacion_seleccionada)
         if formacion_seleccionada == PEDIR_DE_NUEVO:
             continue
         if validaciones.verificar_cant_jugadores(equipo, equipos, formacion_seleccionada):
@@ -190,9 +198,9 @@ def pedir_jugadores_alineacion(
     """
 
     cantidades = {
-        POSICION_ARQUERO: 1,
-        ROL_SUPLENTE: 5,
-        ROL_CAPITAN: 1,
+        POSICION_ARQUERO: NUMERO_DE_ARQUEROS,
+        ROL_SUPLENTE: NUMERO_DE_SUPLENTES,
+        ROL_CAPITAN: NUMERO_DE_CAPITANES,
         POSICION_DEFENSOR: formacion_seleccionada[0],
         POSICION_MEDIOCAMPISTA: formacion_seleccionada[1],
         POSICION_DELANTERO: formacion_seleccionada[2],
@@ -218,7 +226,7 @@ def pedir_jugadores_alineacion(
         else:
             print(ERROR_INPUT_INVALIDO)
     else:
-        jugadores_seleccionados = manejo_de_alineaciones.procesar_multiples(
+        jugadores_seleccionados = validacion_de_entrada.procesar_multiples(
             entrada_del_usuario, lista_filtrada, cantidad
         )
         if jugadores_seleccionados is None:

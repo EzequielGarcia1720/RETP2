@@ -41,6 +41,7 @@ from constantes import (
     TEMPLATE_PRESUPUESTO,
 )
 import entrada_de_usuario
+import manejo_de_jugadores
 import validaciones
 import manejo_de_alineaciones
 import manejo_de_equipos
@@ -199,7 +200,7 @@ def mostrar_plantel(equipo: str, equipos: dict):
     contador = 1
     plantel_ordenado = manejo_de_equipos.ordenar_jugadores(equipos, equipo)
     for jugador in plantel_ordenado:
-        rol_actual = manejo_de_equipos.asignar_rol(jugador, equipos, equipo)
+        rol_actual = manejo_de_jugadores.asignar_rol(jugador, equipos, equipo)
         mensaje += TEMPLATE_JUGADOR_PLANTEL.format(
             n=contador,
             nombre_jugador=jugador["nombre"],

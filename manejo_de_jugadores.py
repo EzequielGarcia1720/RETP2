@@ -1,4 +1,11 @@
 from constantes import (
+    ITEM_LISTA_ALINEACION_ARQUERO,
+    ITEM_LISTA_ALINEACION_CAPITAN,
+    ITEM_LISTA_ALINEACION_DEFENSORES,
+    ITEM_LISTA_ALINEACION_DELANTEROS,
+    ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
+    ITEM_LISTA_ALINEACION_SUPLENTES,
+    ITEM_LISTA_ALINEACION_TITULARES,
     POSICION_ARQUERO,
     POSICION_DEFENSOR,
     POSICION_DELANTERO,
@@ -6,6 +13,9 @@ from constantes import (
     ERROR_PRESUPUESTO_INSUFICIENTE,
     MSG_VENTA_EXITOSA,
     MSG_ALINEACION_DESARMADA,
+    ROL_RESERVA,
+    ROL_SUPLENTE,
+    ROL_TITULAR,
     SALIR,
 )
 import validaciones
@@ -75,17 +85,20 @@ def efectuar_venta(jugador_a_vender: tuple, equipo: str, equipos: dict):
     if validaciones.esta_en_alineacion(equipo, equipos, jugador_a_vender):
         mensaje_de_venta_exitosa += "\n" + MSG_ALINEACION_DESARMADA
         if "alineacion" in equipos[equipo]:
-            equipos[equipo]["alineacion"] = {
-                "Arquero": None,
-                "Defensores": [],
-                "Mediocampistas": [],
-                "Delanteros": [],
-                "Capitan": None,
-                "Suplentes": [],
-                "Titulares": [],
-            }
+            equipos[equipo]["alineacion"] = None
     print(mensaje_de_venta_exitosa)
 
+def asignar_rol(jugador: dict, equipos: dict, equipo: str)-> str:
+    """
+    Recibe el diccionario del jugador, el diccionario de equipos y el nombre del equipo
+    y segun si se cumple es_suplente o es_titular devuelve el rol correspondiente.
+
+    """
+    if validaciones.es_suplente(jugador, equipo, equipos):
+        return ROL_SUPLENTE
+    if validaciones.es_titular(jugador, equipo, equipos):
+        return ROL_TITULAR
+    return ROL_RESERVA
 
 # -------------- Jugadores más utilizados -------------------------
 
@@ -97,7 +110,7 @@ def contar_jugadores(equipos: dict)-> dict:
         alineacion = equipo.get("alineacion")
         if not alineacion:
             continue
-        tipo_de_jugador = ["Suplentes", "Titulares"]
+        tipo_de_jugador = [ITEM_LISTA_ALINEACION_SUPLENTES, ITEM_LISTA_ALINEACION_TITULARES]
         for tipo in tipo_de_jugador:
             for jugador in alineacion.get(tipo, []):
                 clave_jugador = (jugador['nombre'], jugador['posicion'])
@@ -137,13 +150,13 @@ def verificar_alineaciones(equipos: dict)-> bool:
         if any(
             alineacion.get(key)
             for key in [
-                "Arquero",
-                "Capitan",
-                "Defensores",
-                "Mediocampistas",
-                "Delanteros",
-                "Suplentes",
-                "Titulares",
+                ITEM_LISTA_ALINEACION_ARQUERO,
+                ITEM_LISTA_ALINEACION_CAPITAN,
+                ITEM_LISTA_ALINEACION_DEFENSORES,
+                ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
+                ITEM_LISTA_ALINEACION_DELANTEROS,
+                ITEM_LISTA_ALINEACION_SUPLENTES,
+                ITEM_LISTA_ALINEACION_TITULARES,
             ]
         ):
             contador += 1

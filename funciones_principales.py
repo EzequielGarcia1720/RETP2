@@ -2,9 +2,20 @@ from constantes import (
     ERROR_EQUIPO_EXISTENTE,
     ERROR_FORMATO_NOMBRE,
     INPUT_NOMBRE_EQUIPO,
+    # ITEM_LISTA_ALINEACION_ARQUERO,
+    # ITEM_LISTA_ALINEACION_CAPITAN,
+    # ITEM_LISTA_ALINEACION_DEFENSORES,
+    # ITEM_LISTA_ALINEACION_DELANTEROS,
+    # ITEM_LISTA_ALINEACION_MEDIOCAMPISTAS,
+    # ITEM_LISTA_ALINEACION_SUPLENTES,
+    # ITEM_LISTA_ALINEACION_TITULARES,
     MSG_EQUIPO_CREADO,
     MSG_ALINEACION_GUARDADA,
     MSG_NO_INFORMACION,
+    POSICION_ARQUERO,
+    POSICION_DEFENSOR,
+    POSICION_DELANTERO,
+    POSICION_MEDIOCAMPISTA,
     TEMPLATE_ESTADISTICA_JUGADORES,
     SALIR,
     ENTRADA_SALIR
@@ -36,20 +47,12 @@ def crear_equipos(equipos: dict, presupuesto: int):
         equipos[nombre_equipo] = {
             "presupuesto": presupuesto,
             "plantel": {
-                "Arquero": {},
-                "Defensor": {},
-                "Mediocampista": {},
-                "Delantero": {},
+                POSICION_ARQUERO: {},
+                POSICION_DEFENSOR: {},
+                POSICION_MEDIOCAMPISTA: {},
+                POSICION_DELANTERO: {},
             },
-            "alineacion": {
-                "Arquero": None,
-                "Defensores": [],
-                "Mediocampistas": [],
-                "Delanteros": [],
-                "Capitan": None,
-                "Suplentes": [],
-                "Titulares": [],
-            },
+            "alineacion": None
         }
         print(
             MSG_EQUIPO_CREADO.format(
@@ -183,10 +186,6 @@ def ver_jugador_mas_utilizado(equipos: dict):
     """
     conteo = manejo_de_jugadores.contar_jugadores(equipos)
     if not equipos or not conteo:
-        print(MSG_NO_INFORMACION)
-        return
-
-    if not manejo_de_jugadores.verificar_alineaciones(equipos):
         print(MSG_NO_INFORMACION)
         return
 
